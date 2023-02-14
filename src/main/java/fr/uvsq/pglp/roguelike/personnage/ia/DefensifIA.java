@@ -3,6 +3,8 @@ package fr.uvsq.pglp.roguelike.personnage.ia;
 import java.awt.Point;
 import java.util.List;
 
+import fr.uvsq.pglp.roguelike.personnage.Personnage;
+
 public class DefensifIA extends PersonnageIA {
 	
 	private int xDefendre;
@@ -10,7 +12,7 @@ public class DefensifIA extends PersonnageIA {
 	
 	@Override
 	boolean doitChasser() {
-		List<java.awt.Point> points = new Path(player, xDefendre, yDefendre).points();
+		List<fr.uvsq.pglp.roguelike.personnage.ia.Point> points = new Path(player, xDefendre, yDefendre).points();
 
         if (points != null && points.size() <= 6) {
             return true;
@@ -35,7 +37,7 @@ public class DefensifIA extends PersonnageIA {
 
         Personnage other = personnage.personnage(personnage.x + mx, personnage.y + my);
 
-        List<java.awt.Point> points = new Path(personnage, xDefendre, yDefendre).points();
+        List<fr.uvsq.pglp.roguelike.personnage.ia.Point> points = new Path(personnage, xDefendre, yDefendre).points();
 
         if (points != null && points.size() <= 6) {
 	        if (other == null || !other.getNom().equals(personnage.getNom())) {

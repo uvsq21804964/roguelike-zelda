@@ -2,6 +2,7 @@ package fr.uvsq.pglp.roguelike.personnage.ia;
 
 import java.util.List;
 
+import fr.uvsq.pglp.roguelike.donjon.Tile;
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
 public abstract class PersonnageIA {
@@ -25,7 +26,7 @@ public abstract class PersonnageIA {
 
     public final void onUpdate() {
     	if(doitChasser()) {
-    		chasser(world.player);
+    		chasser(world.player());
     	} else if (doitAider()) {
     		aider();
     	} else {
@@ -63,10 +64,10 @@ public abstract class PersonnageIA {
 
     public boolean peutVoir(int wx, int wy) {
 
-        if (Math.pow(personnage.x - wx, 2) + Math.pow(personnage.y - wy, 2) > Math.pow(personnage.distanceVue(), 2))
+        if (Math.pow(personnage.x - wx, 2) + Math.pow(personnage.getY() - wy, 2) > Math.pow(personnage.distanceVue(), 2))
             return false;
 
-        for (Point p : new Ligne(personnage.x, personnage.y, wx, wy)) {
+        for (Point p : new Line(personnage.getX(), personnage.getX(), wx, wy)) {
             if (personnage.tile(p.x, p.y).isGround() || p.x == wx && p.y == wy)
                 continue;
 
@@ -80,7 +81,7 @@ public abstract class PersonnageIA {
         int mx = (int) (Math.random() * 3) - 1;
         int my = (int) (Math.random() * 3) - 1;
 
-        Personnage other = personnage.personnage(personnage.x + mx, personnage.y + my);
+        Personnage other = personnage.personnage(personnage.getX() + mx, personnage.getY() + my);
 
         if (other == null || !other.getNom().equals(personnage.getNom())) {
             personnage.moveBy(mx, my);
@@ -91,8 +92,8 @@ public abstract class PersonnageIA {
         return Tile.UNKNOWN;
     }
 
-    public boolean aProximite(double x, double y) {
-    	List<java.awt.Point> points = new Path(personnage, x, y).points();
+    public boolean aProximite(int x, int y) {
+    	List<Point> points = new Path(personnage, x, y).points();
 
         if (points != null && points.size() <= 2) {
             return true;

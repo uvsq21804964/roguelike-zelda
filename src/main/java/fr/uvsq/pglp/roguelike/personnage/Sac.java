@@ -1,8 +1,10 @@
 package fr.uvsq.pglp.roguelike.personnage;
 
+import fr.uvsq.pglp.roguelike.echangeable.Equipement;
+
 class Sac {
 
-    private final Equipement[] items;
+    private Equipement[] items;
 
     public Sac(int max) {
         items = new Equipement[max];
@@ -51,7 +53,7 @@ class Sac {
         }
     }
 
-    public void remove(Item item) {
+    public void remove(Equipement item) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == item) {
                 items[i] = null;
@@ -76,7 +78,7 @@ class Sac {
     public boolean contains(String str) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null) {
-                if (items[i].name() == str)
+                if (items[i].getNom() == str)
                     return true;
             }
         }

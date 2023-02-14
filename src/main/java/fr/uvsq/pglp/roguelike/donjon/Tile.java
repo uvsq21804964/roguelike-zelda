@@ -1,7 +1,5 @@
 package fr.uvsq.pglp.roguelike.donjon;
 
-import asciiPanel.AsciiPanel;
-
 import java.awt.*;
 
 /**
@@ -14,21 +12,19 @@ import java.awt.*;
  * @version janvier 2023
  */
 public enum Tile {
-    FLOOR((char) 250, AsciiPanel.yellow, "Un sol en marbre digne des architectes hyruliens de jadis."),
-    WALL((char) 177, AsciiPanel.yellow, "Un mur aux motifs anciens dont le sens est cryptes."),
-    BOUNDS('x', AsciiPanel.brightBlack, "Au-dela du temple, un autre monde."),
-    UNKNOWN(' ', AsciiPanel.white, "Encore inconnu, mais rien ne vous empeche de decouvrir les lieux..."),
-    BOX('X', new Color(17, 200, 38), "Une caisse contenant surement des rubis ou des equipements."),
-    P('P', AsciiPanel.red, "Une porte bien mystérieuse.");
+    FLOOR((char) 250, new  Color(128,128,0)),
+    WALL((char) 177, new  Color(128,128,0)),
+    BOUNDS('x', new  Color (128,128,128)),
+    UNKNOWN(' ', new  Color(192,192,192)),
+    BOX('X', new Color(17, 200, 38)),
+    P('P', new  Color(128,0,0));
 
     private final char glyph;
     private final Color color;
-    private final String details;
 
-    Tile(char glyph, Color color, String details) {
+    Tile(char glyph, Color color) {
         this.glyph = glyph;
         this.color = color;
-        this.details = details;
     }
 
     public char glyph() {
@@ -37,10 +33,6 @@ public enum Tile {
 
     public Color color() {
         return color;
-    }
-
-    public String details() {
-        return details;
     }
 
     public boolean isGround() {

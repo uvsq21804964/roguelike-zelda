@@ -322,14 +322,27 @@ public class PersonnageDonjon implements Personnage {
 	
 	public boolean setSac(Sac sac) {
 		
-		if(sac.size() > 20) {
+		for(int i = 0 ; i < sac.size() ; i++) {
+			if(!(sac.get(i) instanceof Equipement)) {
+				throw new IllegalArgumentException("Un sac ne peut contenir que des équipements."
+						+ "Le sac renseigné contient un objet " + sac.get(i).getClass().getName() + ".");
 			
-			throw new IllegalArgumentException("");
+			}
 		}
 		
-		this.sac = sac;
-		return true;
 		
+		if(sac.size() > 20) {
+			throw new IllegalArgumentException("Un sac ne peut pas contenir plus de 20 équipements."
+					+ "Le sac renseigné contient " + sac.size() + " équipements.");
+		}
+		
+		Sac newSac = new Sac(20);
+		for(int i = 0 ; i < sac.getItems().length ; i++) {
+			newSac.add(sac.get(i));
+		}
+		
+		this.sac = newSac;
+		return true;
 	}
 	
 	public void retirerBouclier() {
@@ -354,17 +367,17 @@ public class PersonnageDonjon implements Personnage {
 	
 	public void laisserRubisAleatoire() {
     	
-		switch((int) (Math.random()*3)) {
-		case 0 :
-			world.leavePieces((int) (bourse.valeur()*0.2));
-			break;
-		case 1 :
-			world.leavePieces((int) (bourse.valeur()*0.05));
-			break;
-		case 2:
-			world.leavePieces((int) (bourse.valeur()*0.5));
-			break;
-		}
+//		switch((int) (Math.random()*3)) {
+//		case 0 :
+//			world.leavePieces((int) (bourse.valeur()*0.2));
+//			break;
+//		case 1 :
+//			world.leavePieces((int) (bourse.valeur()*0.05));
+//			break;
+//		case 2:
+//			world.leavePieces((int) (bourse.valeur()*0.5));
+//			break;
+//		}
     }
 	
 }

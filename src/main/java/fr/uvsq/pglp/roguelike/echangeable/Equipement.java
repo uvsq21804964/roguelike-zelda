@@ -1,6 +1,6 @@
 package fr.uvsq.pglp.roguelike.echangeable;
 
-interface Equipement {
+public interface Equipement {
 	
 	public String getNom();
 	public int getPrix();
