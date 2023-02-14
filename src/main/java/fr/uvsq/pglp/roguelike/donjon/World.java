@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import asciiPanel.AsciiPanel;
+import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
 /**
  * Cette classe est responsable de la gestion du monde
@@ -25,7 +26,7 @@ public class World implements Serializable {
 	
 	private Tile[][] tiles;
 	private int numeroSalle;
-	private Item[][] items;
+	private Equipement[][] items;
 	private Rubis[][] rubises;
 	
 	private int width;
@@ -34,16 +35,16 @@ public class World implements Serializable {
 	private int height;
 	public int height() { return height; }
 	
-	private List<Creature> creatures;
+	private List<Personnage> personnages;
 	
 	public World(Tile[][] tiles, int numeroSalle){
 		this.numeroSalle = numeroSalle;
 		this.tiles = tiles;
 		this.width = tiles.length;
 		this.height = tiles[0].length;
-		this.items = new Item[width][height];
+		this.items = new Equipement[width][height];
 		this.rubises = new Rubis [width][height];
-		this.creatures = new ArrayList<Creature>();
+		this.personnages = new ArrayList<Personnage>();
 	}
 	
 	public void equal(World world){
@@ -54,18 +55,14 @@ public class World implements Serializable {
 		this.height = world.tiles[0].length;
 		this.items = world.items();
 		this.rubises = world.rubises();;
-		this.creatures = world.creatures();;
-	}
-	
-	public int numeroSalle() {
-		return numeroSalle;
+		this.personnages = world.creatures();;
 	}
 	
 	private Tile[][] tiles() {
 		return tiles;
 	}
 	
-	private Item[][] items() {
+	private Equipement[][] items() {
 		return items;
 	}
 	
@@ -73,12 +70,12 @@ public class World implements Serializable {
 		return rubises;
 	}
 	
-	public List<Creature> creatures() {
-		return creatures;
+	public List<Personnage> personnages() {
+		return personnages;
 	}
 	
-	public Creature creature(int x, int y){
-		for (Creature c : creatures){
+	public Personnage personnage(int x, int y){
+		for (Personnage c : personnages){
 			if (c.x == x && c.y == y)
 				return c;
 		}
@@ -92,7 +89,7 @@ public class World implements Serializable {
 			return tiles[x][y];
 	}
 	
-	public Item item(int x, int y){
+	public Equipement item(int x, int y){
 	    return items[x][y];
 	}
 	
@@ -101,7 +98,7 @@ public class World implements Serializable {
 	}
 	
 	public char glyph(int x, int y){
-	    Creature creature = creature(x, y);
+	    Personnage creature = personnage(x, y);
 	    if (creature != null)
 	        return creature.glyph();
 	    
@@ -115,8 +112,7 @@ public class World implements Serializable {
 	}
 	
 	public Color color(int x, int y){
-	    Creature creature = creature(x, y);
-	    if (creature != null)
+	    Personnage if (creature != null)
 	        return creature.color();
 	    
 	    if (item(x,y) != null)

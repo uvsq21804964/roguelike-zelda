@@ -1,6 +1,6 @@
-package fr.uvsq.pglp.roguelike.personnage;
+package fr.uvsq.pglp.roguelike.echangeable;
 
-enum Bouclier implements Armure {
+public enum Bouclier implements Armure {
 	
 	PETITBOUCLIER("petit bouclier", 1, 2),
 	GRANDBOUCLIER("grand bouclier", 2, 4);

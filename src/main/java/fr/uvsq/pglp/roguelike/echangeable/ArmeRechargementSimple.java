@@ -1,21 +1,18 @@
-package fr.uvsq.pglp.roguelike.personnage;
+package fr.uvsq.pglp.roguelike.echangeable;
 
-public enum ArmeSansRechargement implements ArmeDistance {
+public enum ArmeRechargementSimple implements ArmeDistance {
 	
-	ARCCOURT("arc court", new De(6), true, 30.0, 4),
-	ARCLONG("arc long", new De(8), true, 50.0, 10),
-	FRONDE("fronde", new De(4), false, 5.0, 0),
-	HACHETTE("hachette", new De(6), false, 5.0, 2),
-	JAVELOT("javelot", new De(6), false, 20.0, 6);
+	ARBALETEPOING("arbalete de poing", new De(6), false, 10.0, 8),
+	ARBALETELEGERE("arbalete legere", new De(2, 4), true, 30.0, 10);
 
 	private final String nom;
 	private final De de;
 	private final boolean deuxMains;
 	private final double portee;
 	private final int prix;
-	private final char glyph = '.';
+	private final char glyph = '!';
 	
-	ArmeSansRechargement(String nom, De de, boolean deuxMains, double portee, int prix) {
+	ArmeRechargementSimple(String nom, De de, boolean deuxMains, double portee, int prix) {
 		this.nom = nom;
 		this.de = de;
 		this.deuxMains = deuxMains;

@@ -1,4 +1,4 @@
-package fr.uvsq.pglp.roguelike.personnage;
+package fr.uvsq.pglp.roguelike.echangeable;
 
 interface Equipement {
 	

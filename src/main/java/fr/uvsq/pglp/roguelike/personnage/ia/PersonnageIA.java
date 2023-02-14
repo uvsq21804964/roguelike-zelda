@@ -1,12 +1,10 @@
-package fr.uvsq.pglp.roguelike.personnage;
+package fr.uvsq.pglp.roguelike.personnage.ia;
 
 import java.util.List;
 
-import fr.uvsq.cprog.roguelike.Creature;
-import fr.uvsq.cprog.roguelike.Path;
-import fr.uvsq.cprog.roguelike.Point;
+import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
-abstract class PersonnageIA {
+public abstract class PersonnageIA {
 	
     protected Personnage personnage;
 
@@ -27,7 +25,7 @@ abstract class PersonnageIA {
 
     public final void onUpdate() {
     	if(doitChasser()) {
-    		chasser(player);
+    		chasser(world.player);
     	} else if (doitAider()) {
     		aider();
     	} else {

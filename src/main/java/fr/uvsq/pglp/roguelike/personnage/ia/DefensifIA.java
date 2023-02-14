@@ -1,4 +1,4 @@
-package fr.uvsq.pglp.roguelike.personnage;
+package fr.uvsq.pglp.roguelike.personnage.ia;
 
 import java.awt.Point;
 import java.util.List;

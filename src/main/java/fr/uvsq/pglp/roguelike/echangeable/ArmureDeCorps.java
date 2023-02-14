@@ -1,6 +1,6 @@
-package fr.uvsq.pglp.roguelike.personnage;
+package fr.uvsq.pglp.roguelike.echangeable;
 
-enum ArmureDeCorps implements Armure {
+public enum ArmureDeCorps implements Armure {
 	
 	TISSUMATELASSE("tissu matellasse", 1, 2),
 	CUIR("cuir", 2, 4),
