@@ -2,21 +2,47 @@ package fr.uvsq.pglp.roguelike.personnage;
 
 class Sac {
 
-    private final Item[] items;
+    private final Equipement[] items;
 
     public Sac(int max) {
-        items = new Item[max];
+        items = new Equipement[max];
     }
 
-    public Item[] getItems() {
+    public Equipement[] getItems() {
         return items;
     }
 
-    public Item get(int i) {
+    public Equipement get(int i) {
         return items[i];
     }
+    
+    public Equipement getItemAleatoire() {
+    	
+    	int nbItems = 0;
+    	for(Equipement e : items) {
+    		if(e != null) {
+    			nbItems++;
+    		}
+    	}
+    	
+    	if(nbItems == 0) {
+    		return null;
+    	}
+    	
+    	Equipement[] itemsNonNull = new Equipement[nbItems];
+    	nbItems = 0;
+    	for(Equipement e : items) {
+    		if(e != null) {
+    			itemsNonNull[nbItems] = e;
+    			nbItems++;
+    		}
+    	}
+    	
+    	int alea = (int) (Math.random()*nbItems);
+    	return itemsNonNull[alea];
+    }
 
-    public void add(Item item) {
+    public void add(Equipement item) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {
                 items[i] = item;

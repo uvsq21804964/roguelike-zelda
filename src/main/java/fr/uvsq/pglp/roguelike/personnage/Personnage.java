@@ -16,6 +16,10 @@ public class Personnage {
 	private int defenseBase;
 	private Jauge bourse;
 	private Sac sac;
+	private Armure[] armures = {null, null};
+	private Arme[] armes = {null, null};
+	private PersonnageIA ia;
+	public void setPersonnageIA(PersonnageIA ia) { this.ia = ia; }
 	
 	Personnage(PersonnageBuilder builder) {
 		
@@ -174,6 +178,72 @@ public class Personnage {
 		
 		return false;
 	}
+	
+
+	public boolean setArmes(Arme arme1, Arme arme2) {
+		
+		if(arme1 != null && arme2 != null) {
+			if(arme1.isDeuxMains() || arme2.isDeuxMains()) {
+				String nbMains1 = "deux mains";
+				String nbMains2 = "deux mains.";
+				if(!arme1.isDeuxMains()) {
+					nbMains1 = "une main";
+				}
+				if(!arme2.isDeuxMains()) {
+					nbMains2 = "une main.";
+				}
+				throw new IllegalArgumentException("Les personnages n'ont que deux mains."
+						+ arme1.getNom() + " requiert " + nbMains1 
+						+ " et " + arme2.getNom() + " requiert " + nbMains2);
+			}
+		}
+		
+		this.armes[0] = arme1;
+		this.armes[1] = arme2;
+		
+		return true;
+	}
+	
+	public void setArmures(Bouclier bouclier, ArmureDeCorps armure) {
+				
+		this.armures[0] = bouclier;
+		this.armures[1] = armure;
+	}
+	
+	public void retirerBouclier() {
+		this.armures[0] = null;
+	}
+	
+	public void retirerArmureDeCorps() {
+		this.armures[1] = null;
+	}
+	
+	public boolean retirerArmes(Arme arme) {
+		if(armes[0].equals(arme)) {
+			armes[0] = null;
+			return true;
+		} else if (armes[1].equals(arme)) {
+			armes[1] = null;
+			return true;
+		}
+			
+		return false;
+	}
+	
+	public void laisserRubisAleatoire() {
+    	
+		switch((int) (Math.random()*3)) {
+		case 0 :
+			world.leavePieces((int) (bourse.valeur()*0.2));
+			break;
+		case 1 :
+			world.leavePieces((int) (bourse.valeur()*0.05));
+			break;
+		case 2:
+			world.leavePieces((int) (bourse.valeur()*0.5));
+			break;
+		}
+    }
 	
 }
 

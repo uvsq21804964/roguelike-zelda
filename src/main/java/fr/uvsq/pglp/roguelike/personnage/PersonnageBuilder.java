@@ -49,11 +49,6 @@ class PersonnageBuilder {
 		return this;
 	}
 	
-	public PersonnageBuilder bourse(Jauge bourse) {
-		this.bourse = bourse;
-		return this;
-	}
-	
 	private void scoreActualiser() {
 		this.defenseBase = mod(Caracteristique.CON) + 10;
 		this.initiativeBase = mod(Caracteristique.DEX);
