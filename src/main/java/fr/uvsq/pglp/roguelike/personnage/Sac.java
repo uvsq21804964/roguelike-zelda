@@ -4,84 +4,86 @@ import fr.uvsq.pglp.roguelike.echangeable.Equipement;
 
 class Sac {
 
-    private Equipement[] items;
+  private Equipement[] items;
 
-    public Sac(int max) {
-        items = new Equipement[max];
+  public Sac(int max) {
+    items = new Equipement[max];
+  }
+
+  public Equipement[] getItems() {
+    return items;
+  }
+
+  public Equipement get(int i) {
+    return items[i];
+  }
+
+  public Equipement getItemAleatoire() {
+
+    int nbItems = 0;
+    for (Equipement e : items) {
+      if (e != null) {
+        nbItems++;
+      }
     }
 
-    public Equipement[] getItems() {
-        return items;
+    if (nbItems == 0) {
+      return null;
     }
 
-    public Equipement get(int i) {
-        return items[i];
-    }
-    
-    public Equipement getItemAleatoire() {
-    	
-    	int nbItems = 0;
-    	for(Equipement e : items) {
-    		if(e != null) {
-    			nbItems++;
-    		}
-    	}
-    	
-    	if(nbItems == 0) {
-    		return null;
-    	}
-    	
-    	Equipement[] itemsNonNull = new Equipement[nbItems];
-    	nbItems = 0;
-    	for(Equipement e : items) {
-    		if(e != null) {
-    			itemsNonNull[nbItems] = e;
-    			nbItems++;
-    		}
-    	}
-    	
-    	int alea = (int) (Math.random()*nbItems);
-    	return itemsNonNull[alea];
+    Equipement[] itemsNonNull = new Equipement[nbItems];
+    nbItems = 0;
+    for (Equipement e : items) {
+      if (e != null) {
+        itemsNonNull[nbItems] = e;
+        nbItems++;
+      }
     }
 
-    public void add(Equipement item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                items[i] = item;
-                break;
-            }
+    int alea = (int) (Math.random() * nbItems);
+    return itemsNonNull[alea];
+  }
+
+  public void add(Equipement item) {
+    for (int i = 0; i < items.length; i++) {
+      if (items[i] == null) {
+        items[i] = item;
+        break;
+      }
+    }
+  }
+
+  public void remove(Equipement item) {
+    for (int i = 0; i < items.length; i++) {
+      if (items[i] == item) {
+        items[i] = null;
+        return;
+      }
+    }
+  }
+
+  public boolean isFull() {
+    return size() == items.length;
+  }
+
+  public int size() {
+    int size = 0;
+    for (int i = 0; i < items.length; i++) {
+      if (items[i] != null) {
+        size++;
+      }
+    }
+    return size;
+  }
+
+  public boolean contains(String str) {
+    for (int i = 0; i < items.length; i++) {
+      if (items[i] != null) {
+        if (items[i].getNom() == str) {
+          return true;
         }
+      }
     }
-
-    public void remove(Equipement item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == item) {
-                items[i] = null;
-                return;
-            }
-        }
-    }
-
-    public boolean isFull() {
-        return size() == items.length;
-    }
-
-    public int size() {
-        int size = 0;
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null)
-                size++;
-        }
-        return size;
-    }
-
-    public boolean contains(String str) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null) {
-                if (items[i].getNom() == str)
-                    return true;
-            }
-        }
-        return false;
-    }
+    return false;
+  }
 }

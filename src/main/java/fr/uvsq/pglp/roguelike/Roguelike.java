@@ -1,10 +1,11 @@
 package fr.uvsq.pglp.roguelike;
 
+import fr.uvsq.pglp.roguelike.donjon.genererdonjon.Donjon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Main class for the application.
+ * Classe principale de l'application.
  *
  * @author hal
  * @version jan 2023
@@ -14,22 +15,23 @@ public enum Roguelike {
 
   private static final Logger logger = LoggerFactory.getLogger(Roguelike.class);
 
-  /*
-   * Main method of the program.
-   * @param args command line arguments
-   */
-  private void run(String[] args) {
-    logger.info("Début de l'exécution");
-    // Do something...
-    logger.info("Fin de l'exécution");
-  }
-
   /**
-   * Class method called by Java VM when starting the application.
+   * Méthode appelée par la VM Java au démarrage de l'application.
    *
-   * @param args command line arguments
+   * @param args Les entrées de la ligne de commande
    */
   public static void main(String[] args) {
     APPLICATION.run(args);
+  }
+  
+  /**
+   * Méthode principale du programme.
+   *
+   * @param args Les entrées de la ligne de commande
+   */
+  private void run(String[] args) {
+    logger.info("Début de l'exécution");
+    new Donjon();
+    logger.info("Fin de l'exécution");
   }
 }

@@ -1,21 +1,33 @@
 package fr.uvsq.pglp.roguelike.personnage;
 
+/**
+ * Encapsulation des différentes sortes de personnage.
+ *
+ * <p>Dans notre cas, il n'existe que la sorte {@link PersonnageDonjon}.</p>
+ * <p>Chaque sorte de personnage doit posséder : un nom, une méthode d'accès
+ * à une zone, une méthode de déplacement, un sac pour ranger des items, une 
+ * position à 2D, un rayon de vision et la possibilité de poser aléatoirement un
+ * certain nombre de pièces (=monnaie du jeu).</p>
+ *
+ * @author Tom Abbouz
+ * @version Février 2023
+ */
 public interface Personnage {
 
-	boolean canEnter(int x, int y);
+  boolean canEnter(int x, int y);
 
-	void moveBy(int mx, int my);
+  void moveBy(int mx, int my);
 
-	void laisserRubisAleatoire();
+  void laisserRubisAleatoire();
 
-	Object getSac();
+  Object getSac();
 
-	Object getNom();
-	
-	int getX();
-	
-	int getY();
+  Object getNom();
 
-	double distanceVue();
+  int getX();
+
+  int getY();
+
+  double distanceVue();
 
 }
