@@ -11,6 +11,26 @@ package fr.uvsq.pglp.roguelike.echangeable;
  * @author Tom Abbouz
  * @version Février 2023
  */
-public class Pieces {
+public class Pieces implements Echangeable {
+
+  private int valeur;
+  
+  public Pieces(int valeur) {
+    this.valeur = valeur;
+  }
+  
+  @Override
+  public char getGlyph() {
+    return '$';
+  }
+
+  @Override
+  public String getNom() {
+    return (valeur + " pièces d'argent");
+  }
+  
+  public int getValeur() {
+    return valeur;
+  }
 
 }

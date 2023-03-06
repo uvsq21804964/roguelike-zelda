@@ -23,38 +23,39 @@ public class DefensifIa extends PersonnageIa {
   public DefensifIa(Personnage personnage) {
     super(personnage);
   }
-
-  @Override
-  boolean doitChasser() {
-    List<fr.uvsq.pglp.roguelike.personnage.ia.Point> points = 
-        new Path(player, defendreX, defendreY).points();
-
-    if (points != null && points.size() <= 6) {
-      return true;
-    }
-    return false;
-  }
-
-  @Override
-  boolean doitAider() {
-    return false;
-  }
-
-  @Override
-  public void errer() {
-    int mx = (int) (Math.random() * 3) - 1;
-    int my = (int) (Math.random() * 3) - 1;
-
-    Personnage other = personnage.personnage(personnage.x + mx, personnage.y + my);
-
-    List<fr.uvsq.pglp.roguelike.personnage.ia.Point> points = 
-        new Path(personnage, defendreX, defendreY).points();
-
-    if (points != null && points.size() <= 6) {
-      if (other == null || !other.getNom().equals(personnage.getNom())) {
-        personnage.moveBy(mx, my);
-      }
-    }
-  }
+  
+//
+//  @Override
+//  boolean doitChasser() {
+//    List<fr.uvsq.pglp.roguelike.personnage.ia.Point> points = 
+//        new Path(player, defendreX, defendreY).points();
+//
+//    if (points != null && points.size() <= 6) {
+//      return true;
+//    }
+//    return false;
+//  }
+//
+//  @Override
+//  boolean doitAider() {
+//    return false;
+//  }
+//
+//  @Override
+//  public void errer() {
+//    int mx = (int) (Math.random() * 3) - 1;
+//    int my = (int) (Math.random() * 3) - 1;
+//
+//    Personnage other = personnage.personnage(personnage.x + mx, personnage.y + my);
+//
+//    List<fr.uvsq.pglp.roguelike.personnage.ia.Point> points = 
+//        new Path(personnage, defendreX, defendreY).points();
+//
+//    if (points != null && points.size() <= 6) {
+//      if (other == null || !other.getNom().equals(personnage.getNom())) {
+//        personnage.moveBy(mx, my);
+//      }
+//    }
+//  }
 
 }

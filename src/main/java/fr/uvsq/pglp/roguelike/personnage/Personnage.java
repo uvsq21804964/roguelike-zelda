@@ -1,5 +1,7 @@
 package fr.uvsq.pglp.roguelike.personnage;
 
+import fr.uvsq.pglp.roguelike.personnage.ia.PersonnageIa;
+
 /**
  * Encapsulation des différentes sortes de personnage.
  *
@@ -14,20 +16,15 @@ package fr.uvsq.pglp.roguelike.personnage;
  */
 public interface Personnage {
 
-  boolean canEnter(int x, int y);
-
-  void moveBy(int mx, int my);
-
-  void laisserRubisAleatoire();
-
-  Object getSac();
-
-  Object getNom();
+  String getNom();
 
   int getX();
 
   int getY();
-
-  double distanceVue();
-
+  
+  void setPosition(int x, int y);
+  
+  void genererPersonnageIa();
+  
+  PersonnageIa getIa();
 }

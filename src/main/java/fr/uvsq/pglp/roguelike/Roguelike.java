@@ -1,8 +1,9 @@
 package fr.uvsq.pglp.roguelike;
 
-import fr.uvsq.pglp.roguelike.donjon.genererdonjon.Donjon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import fr.uvsq.pglp.roguelike.ihm.ConsoleTexte;
 
 /**
  * Classe principale de l'application.
@@ -31,7 +32,7 @@ public enum Roguelike {
    */
   private void run(String[] args) {
     logger.info("Début de l'exécution");
-    new Donjon();
+    new ConsoleTexte();
     logger.info("Fin de l'exécution");
   }
 }

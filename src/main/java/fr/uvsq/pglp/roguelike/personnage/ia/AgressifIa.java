@@ -19,13 +19,13 @@ public class AgressifIa extends PersonnageIa {
     super(personnage);
   }
 
-  @Override
-  boolean doitChasser() {
-    return true;
-  }
-
-  @Override
-  boolean doitAider() {
-    return false;
-  }
+//  @Override
+//  boolean doitChasser() {
+//    return true;
+//  }
+//
+//  @Override
+//  boolean doitAider() {
+//    return false;
+//  }
 }

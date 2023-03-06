@@ -1,5 +1,11 @@
 package fr.uvsq.pglp.roguelike.echangeable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Enumération de toute les {@link Arme}s de contact.
  *
@@ -65,5 +71,32 @@ public enum ArmeContact implements Arme {
   public char getGlyph() {
     return glyph;
   }
+  
+  private static final List<ArmeContact> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
+  private static final int SIZE = VALUES.size();
+  private static final Random RANDOM = new Random();
 
+  public static ArmeContact random()  {
+    
+    ArrayList<ArmeContact> possibles = new ArrayList<ArmeContact>();
+ 
+    for(int i = 0 ; i < SIZE ; i++) {
+      if(VALUES.get(i).prix < 6) {
+        possibles.add(VALUES.get(i));
+      }
+    }
+    
+    if(possibles.size() == 0) {
+      ArmeContact b = VALUES.get(0);
+      for(int i = 1 ; i < SIZE ; i++) {
+        if(b.prix > VALUES.get(i).prix) {
+          b = VALUES.get(i);
+        }
+      }
+      return b;
+    }
+    
+    int r = RANDOM.nextInt(possibles.size());
+    return VALUES.get(r);
+  }
 }

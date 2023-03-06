@@ -21,20 +21,20 @@ public class AmicalIa extends PersonnageIa {
   public AmicalIa(Personnage personnage) {
     super(personnage);
   }
-
-  @Override
-  boolean doitChasser() {
-    return false;
-  }
-
-  @Override
-  boolean doitAider() {
-
-    if (nbMaxAides > nbAides) {
-      nbAides++;
-      return true;
-    }
-
-    return false;
-  }
+//
+//  @Override
+//  boolean doitChasser() {
+//    return false;
+//  }
+//
+//  @Override
+//  boolean doitAider() {
+//
+//    if (nbMaxAides > nbAides) {
+//      nbAides++;
+//      return true;
+//    }
+//
+//    return false;
+//  }
 }

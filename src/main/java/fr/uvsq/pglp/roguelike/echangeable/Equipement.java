@@ -12,11 +12,7 @@ package fr.uvsq.pglp.roguelike.echangeable;
  * @author Tom Abbouz
  * @version Février 2023
  */
-public interface Equipement {
-
-  public String getNom();
+public interface Equipement extends Echangeable {
 
   public int getPrix();
-
-  public char getGlyph();
 }

@@ -18,18 +18,18 @@ public class NeutreIa extends PersonnageIa {
   public NeutreIa(Personnage personnage) {
     super(personnage);
   }
-
-  @Override
-  boolean doitChasser() {
-
-    //TODO
-    return false;
-
-  }
-
-  @Override
-  boolean doitAider() {
-    return false;
-  }
+//
+//  @Override
+//  boolean doitChasser() {
+//
+//    //TODO
+//    return false;
+//
+//  }
+//
+//  @Override
+//  boolean doitAider() {
+//    return false;
+//  }
 
 }
