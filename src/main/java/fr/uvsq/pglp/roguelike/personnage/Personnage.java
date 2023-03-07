@@ -8,7 +8,7 @@ import fr.uvsq.pglp.roguelike.personnage.ia.PersonnageIa;
  *
  * <p>Dans notre cas, il n'existe que la sorte {@link PersonnageDonjon}.</p>
  * <p>Chaque sorte de personnage doit posséder : un nom, une méthode d'accès
- * à une zone, une méthode de déplacement, un sac pour ranger des items, une 
+ * à une zone, une méthode de déplacement, un sac pour ranger des items, une
  * position à 2D, un rayon de vision et la possibilité de poser aléatoirement un
  * certain nombre de pièces (=monnaie du jeu).</p>
  *
@@ -21,21 +21,21 @@ public interface Personnage {
 
   int getX();
 
+  void setX(int x);
+
   int getY();
-  
+
+  void setY(int y);
+
   void setPosition(int x, int y);
-  
+
   void genererPersonnageIa();
-  
+
   PersonnageIa getIa();
 
   void morceauEtage(ElementEtage elementEtage);
-  
+
   ElementEtage getElementEtage();
-
-  void setX(int x);
-
-  void setY(int y);
 
   void notifier(String message, Object... params);
 }

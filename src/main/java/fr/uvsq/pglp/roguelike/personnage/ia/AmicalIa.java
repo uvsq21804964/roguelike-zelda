@@ -4,14 +4,13 @@ import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
 /**
  * Intelligence artificielle pour les PNJs amicaux.
- * 
+ *
  * <p>Dès qu'un PNJ amical voit le personnage joueur, il l'aide au plus 5 fois.
  * Une aide est soit un don de pièces d'argent ou un don d'équipement.</p>
  *
- * @see PersonnageIa
- * 
  * @author Tom Abbouz
  * @version Février 2023
+ * @see PersonnageIa
  */
 public class AmicalIa extends PersonnageIa {
 

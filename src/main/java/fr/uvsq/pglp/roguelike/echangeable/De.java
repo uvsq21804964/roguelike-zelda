@@ -1,9 +1,9 @@
 package fr.uvsq.pglp.roguelike.echangeable;
 
 /**
- * Représentation d'un (ensemble de) dé pouvant être tiré pour donner un 
+ * Représentation d'un (ensemble de) dé pouvant être tiré pour donner un
  * nombre aléatoire entre 1 et la valeur maximale de celui-ci/ceux_ci.
- * 
+ *
  * <p>Les dés permettent de donner le nombre de dégâts infligé à l'adversaire
  * quand une {@link Arme} est utilisée.</p>
  *

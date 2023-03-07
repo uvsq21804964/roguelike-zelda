@@ -1,9 +1,8 @@
 package fr.uvsq.pglp.roguelike;
 
+import fr.uvsq.pglp.roguelike.ihm.ConsoleTexte;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import fr.uvsq.pglp.roguelike.ihm.ConsoleTexte;
 
 /**
  * Classe principale de l'application.
@@ -24,7 +23,7 @@ public enum Roguelike {
   public static void main(String[] args) {
     APPLICATION.run(args);
   }
-  
+
   /**
    * Méthode principale du programme.
    *

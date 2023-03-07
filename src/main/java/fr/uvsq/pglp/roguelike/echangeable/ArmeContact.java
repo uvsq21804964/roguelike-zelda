@@ -11,11 +11,10 @@ import java.util.Random;
  *
  * <p>Elles ont toutes pour glyph ':'.</p>
  *
- * @see Arme
- * @see Equipement
- *
  * @author Tom Abbouz
  * @version Février 2023
+ * @see Arme
+ * @see Equipement
  */
 public enum ArmeContact implements Arme {
 
@@ -34,6 +33,10 @@ public enum ArmeContact implements Arme {
   RAPIERE("rapiere", new De(6), false, 6),
   VIVELAME("vivelame", new De(10), true, 12);
 
+  private static final List<ArmeContact> VALUES 
+      = Collections.unmodifiableList(Arrays.asList(values()));
+  private static final int SIZE = VALUES.size();
+  private static final Random RANDOM = new Random();
   private final String nom;
   private final De de;
   private final boolean deuxMains;
@@ -45,6 +48,30 @@ public enum ArmeContact implements Arme {
     this.de = de;
     this.deuxMains = deuxMains;
     this.prix = prix;
+  }
+
+  public static ArmeContact random() {
+
+    ArrayList<ArmeContact> possibles = new ArrayList<ArmeContact>();
+
+    for (int i = 0; i < SIZE; i++) {
+      if (VALUES.get(i).prix < 6) {
+        possibles.add(VALUES.get(i));
+      }
+    }
+
+    if (possibles.size() == 0) {
+      ArmeContact b = VALUES.get(0);
+      for (int i = 1; i < SIZE; i++) {
+        if (b.prix > VALUES.get(i).prix) {
+          b = VALUES.get(i);
+        }
+      }
+      return b;
+    }
+
+    int r = RANDOM.nextInt(possibles.size());
+    return VALUES.get(r);
   }
 
   @Override
@@ -70,33 +97,5 @@ public enum ArmeContact implements Arme {
   @Override
   public char getGlyph() {
     return glyph;
-  }
-  
-  private static final List<ArmeContact> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-  private static final int SIZE = VALUES.size();
-  private static final Random RANDOM = new Random();
-
-  public static ArmeContact random()  {
-    
-    ArrayList<ArmeContact> possibles = new ArrayList<ArmeContact>();
- 
-    for(int i = 0 ; i < SIZE ; i++) {
-      if(VALUES.get(i).prix < 6) {
-        possibles.add(VALUES.get(i));
-      }
-    }
-    
-    if(possibles.size() == 0) {
-      ArmeContact b = VALUES.get(0);
-      for(int i = 1 ; i < SIZE ; i++) {
-        if(b.prix > VALUES.get(i).prix) {
-          b = VALUES.get(i);
-        }
-      }
-      return b;
-    }
-    
-    int r = RANDOM.nextInt(possibles.size());
-    return VALUES.get(r);
   }
 }

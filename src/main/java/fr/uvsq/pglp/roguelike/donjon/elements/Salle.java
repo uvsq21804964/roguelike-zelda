@@ -4,68 +4,70 @@ import fr.uvsq.pglp.roguelike.donjon.MorceauEtage;
 
 public abstract class Salle extends MorceauEtage {
 
-	protected int numero;
-	
-	public Salle(int numero, int largeur, int longueur, int nbEquipement, int nbEnnemis) {
-		super(largeur, longueur, nbEquipement, nbEnnemis);
-		this.numero = numero;
-		ajouterTresor();
-	}
-	
-	private void ajouterTresor()  {
+  protected int numero;
 
-		int a = (int) (Math.random()*10);
-		
-		int nbTresors = 0;
+  public Salle(int numero, int largeur, int longueur, int nbEquipement, int nbEnnemis) {
+    super(largeur, longueur, nbEquipement, nbEnnemis);
+    this.numero = numero;
+    ajouterTresor();
+  }
 
-		if (a < 3) {
-			nbTresors = 3;
-		} else if (a < 7) {
-			nbTresors = 2;
-		} else if(a < 9) {
-			nbTresors = 1;
-		}
+  private void ajouterTresor() {
 
-		while (nbTresors > 0) {
-			int x = (int) (Math.random()*tiles.length);
-			int y = (int) (Math.random()*tiles[0].length);
-			if (tiles[x][y].equals(Tile.FLOOR) && ouvrables[x][y] == null) {
+    int a = (int) (Math.random() * 10);
 
-				switch((int) (Math.random()*3)) {
-					case 0 :
-					case 1 :
-						ouvrables[x][y] = new Tresor(Tile.BOX);
-						break;
-					case 2 :
-					  ouvrables[x][y] = new Tresor(Tile.CHEST);
-						break;
-				}
-				nbTresors--;
-			}
-		}
-	}
+    int nbTresors = 0;
 
-	@Override
-	public void ajouterPorte(Porte porte) {
+    if (a < 3) {
+      nbTresors = 3;
+    } else if (a < 7) {
+      nbTresors = 2;
+    } else if (a < 9) {
+      nbTresors = 1;
+    }
 
-		Couloir c = (Couloir) porte.getCouloir();
-		
-		if(c.numeroSalle1() == numero + 1 || c.numeroSalle2() == numero + 1) {
-			int a = (int) (Math.random()*(tiles[0].length - 2)) + 1;
-			tiles[tiles.length - 1][a] = porte.getType();
-			ouvrables[tiles.length - 1][a] = porte;
-		} else if(c.numeroSalle1() == numero - 1 || c.numeroSalle2() == numero - 1) {
-			int a = (int) (Math.random()*(tiles[0].length - 2)) + 1;
-			tiles[0][a] = porte.getType();
-			ouvrables[0][a] = porte;
-		} else if(c.numeroSalle1() == numero + 3 || c.numeroSalle2() == numero + 3) {
-			int a = (int) (Math.random()*(tiles.length - 2)) + 1;
-			tiles[a][tiles[0].length - 1] = porte.getType();
-			ouvrables[a][tiles[0].length - 1] = porte;
-		} else if(c.numeroSalle1() == numero - 3 || c.numeroSalle2() == numero - 3) {
-			int a = (int) (Math.random()*(tiles.length - 2)) + 1;
-			tiles[a][0] = porte.getType();
-			ouvrables[a][0] = porte;
-		}
-	}
+    while (nbTresors > 0) {
+      int x = (int) (Math.random() * tiles.length);
+      int y = (int) (Math.random() * tiles[0].length);
+      if (tiles[x][y].equals(Tile.FLOOR) && ouvrables[x][y] == null) {
+
+        switch ((int) (Math.random() * 3)) {
+          case 0:
+          case 1:
+            ouvrables[x][y] = new Tresor(Tile.BOX);
+            break;
+          case 2:
+            ouvrables[x][y] = new Tresor(Tile.CHEST);
+            break;
+          default:
+            break;
+        }
+        nbTresors--;
+      }
+    }
+  }
+
+  @Override
+  public void ajouterPorte(Porte porte) {
+
+    Couloir c = (Couloir) porte.getCouloir();
+
+    if (c.numeroSalle1() == numero + 1 || c.numeroSalle2() == numero + 1) {
+      int a = (int) (Math.random() * (tiles[0].length - 2)) + 1;
+      tiles[tiles.length - 1][a] = porte.getType();
+      ouvrables[tiles.length - 1][a] = porte;
+    } else if (c.numeroSalle1() == numero - 1 || c.numeroSalle2() == numero - 1) {
+      int a = (int) (Math.random() * (tiles[0].length - 2)) + 1;
+      tiles[0][a] = porte.getType();
+      ouvrables[0][a] = porte;
+    } else if (c.numeroSalle1() == numero + 3 || c.numeroSalle2() == numero + 3) {
+      int a = (int) (Math.random() * (tiles.length - 2)) + 1;
+      tiles[a][tiles[0].length - 1] = porte.getType();
+      ouvrables[a][tiles[0].length - 1] = porte;
+    } else if (c.numeroSalle1() == numero - 3 || c.numeroSalle2() == numero - 3) {
+      int a = (int) (Math.random() * (tiles.length - 2)) + 1;
+      tiles[a][0] = porte.getType();
+      ouvrables[a][0] = porte;
+    }
+  }
 }

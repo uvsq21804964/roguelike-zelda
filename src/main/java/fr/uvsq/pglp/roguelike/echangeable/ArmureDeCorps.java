@@ -11,11 +11,10 @@ import java.util.Random;
  *
  * <p>Elles ont toutes pour glyph '/'.</p>
  *
- * @see Armure
- * @see Equipement
- *
  * @author Tom Abbouz
  * @version Février 2023
+ * @see Armure
+ * @see Equipement
  */
 public enum ArmureDeCorps implements Armure {
 
@@ -27,16 +26,45 @@ public enum ArmureDeCorps implements Armure {
   DEMIPLAQUE("demi-plaque", 6, 50),
   PLAQUE("plaque complete", 8, 200);
 
+  private static final List<ArmureDeCorps> VALUES 
+      = Collections.unmodifiableList(Arrays.asList(values()));
+  private static final int SIZE = VALUES.size();
+  private static final Random RANDOM = new Random();
   private final String nom;
   private final int bonusDef;
   private final int prix;
   private final char glyph = '/';
+
 
   ArmureDeCorps(String nom, int bonusDef, int prix) {
 
     this.nom = nom;
     this.bonusDef = bonusDef;
     this.prix = prix;
+  }
+
+  public static ArmureDeCorps random() {
+
+    ArrayList<ArmureDeCorps> possibles = new ArrayList<ArmureDeCorps>();
+
+    for (int i = 0; i < SIZE; i++) {
+      if (VALUES.get(i).prix < 6) {
+        possibles.add(VALUES.get(i));
+      }
+    }
+
+    if (possibles.size() == 0) {
+      ArmureDeCorps b = VALUES.get(0);
+      for (int i = 1; i < SIZE; i++) {
+        if (b.prix > VALUES.get(i).prix) {
+          b = VALUES.get(i);
+        }
+      }
+      return b;
+    }
+
+    int r = RANDOM.nextInt(possibles.size());
+    return VALUES.get(r);
   }
 
   @Override
@@ -49,7 +77,6 @@ public enum ArmureDeCorps implements Armure {
     return bonusDef;
   }
 
-
   @Override
   public int getPrix() {
     return prix;
@@ -58,33 +85,5 @@ public enum ArmureDeCorps implements Armure {
   @Override
   public char getGlyph() {
     return glyph;
-  }
-  
-  private static final List<ArmureDeCorps> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-  private static final int SIZE = VALUES.size();
-  private static final Random RANDOM = new Random();
-
-  public static ArmureDeCorps random()  {
-    
-    ArrayList<ArmureDeCorps> possibles = new ArrayList<ArmureDeCorps>();
- 
-    for(int i = 0 ; i < SIZE ; i++) {
-      if(VALUES.get(i).prix < 6) {
-        possibles.add(VALUES.get(i));
-      }
-    }
-    
-    if(possibles.size() == 0) {
-      ArmureDeCorps b = VALUES.get(0);
-      for(int i = 1 ; i < SIZE ; i++) {
-        if(b.prix > VALUES.get(i).prix) {
-          b = VALUES.get(i);
-        }
-      }
-      return b;
-    }
-    
-    int r = RANDOM.nextInt(possibles.size());
-    return VALUES.get(r);
   }
 }

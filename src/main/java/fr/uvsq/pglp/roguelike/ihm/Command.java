@@ -2,5 +2,5 @@ package fr.uvsq.pglp.roguelike.ihm;
 
 @FunctionalInterface
 public interface Command {
-    public void apply(String s);
+  public void apply(String s);
 }

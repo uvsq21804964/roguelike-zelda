@@ -8,10 +8,9 @@ import fr.uvsq.pglp.roguelike.personnage.Personnage;
  * <p>Dès que le personnage joueur attaque un PNJ neutre, celui-ci l'attaque et/ou
  * s'approche du personnage joueur.</p>
  *
- * @see PersonnageIa
- *
  * @author Tom Abbouz
  * @version Février 2023
+ * @see PersonnageIa
  */
 public class NeutreIa extends PersonnageIa {
 

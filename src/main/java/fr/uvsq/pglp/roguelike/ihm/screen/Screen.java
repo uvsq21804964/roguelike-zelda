@@ -10,10 +10,10 @@ import fr.uvsq.pglp.roguelike.ihm.Console;
  * @version janvier 2023
  */
 public interface Screen {
-    void displayOutput(Console console);
+  void displayOutput(Console console);
 
-    boolean commande(String s);
+  boolean commande(String s);
 
-    Screen autreScreen(String s);
+  Screen autreScreen(String s);
 }
 

@@ -27,27 +27,27 @@ public enum Tile {
   public boolean isGround() {
     return this != WALL && this != PORTE && this != PORTEACROCHETER;
   }
-  
+
   public boolean isSautable() {
     return this != WALL && this != PORTE && this != PORTEACROCHETER;
   }
-  
-  public boolean aOuvrir() {
+
+  public boolean ouvrable() {
     return (this.equals(PORTE) || this.equals(CHEST));
   }
-  
-  public boolean aCrocheter() {
+
+  public boolean crochetable() {
     return this.equals(PORTEACROCHETER);
   }
-  
-  public boolean aForcer() {
+
+  public boolean forcable() {
     return this.equals(BOX);
   }
-  
+
   public boolean isTresor() {
     return (this.equals(BOX) || this.equals(CHEST));
   }
-  
+
   public String nom() {
     return nom;
   }

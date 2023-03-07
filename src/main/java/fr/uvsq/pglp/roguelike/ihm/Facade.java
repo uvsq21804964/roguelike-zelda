@@ -13,21 +13,21 @@ public class Facade {
   }
 
   public void deplacer(String s) {
-    switch(s) {
-    case"droite":
-      joueur.moveBy(1, 0);
-      break;
-    case"gauche":
-      joueur.moveBy(-1, 0);
-      break;
-    case"haut":
-      joueur.moveBy(0, -1);
-      break;
-    case"bas":
-      joueur.moveBy(0, 1);
-      break;
-    default:
-      break;
+    switch (s) {
+      case "droite":
+        joueur.moveBy(1, 0);
+        break;
+      case "gauche":
+        joueur.moveBy(-1, 0);
+        break;
+      case "haut":
+        joueur.moveBy(0, -1);
+        break;
+      case "bas":
+        joueur.moveBy(0, 1);
+        break;
+      default:
+        break;
     }
   }
 

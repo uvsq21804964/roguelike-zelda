@@ -12,12 +12,11 @@ import java.util.Random;
  *
  * <p>Elles ont toutes pour glyph '?'.</p>
  *
+ * @author Tom Abbouz
+ * @version Février 2023
  * @see Arme
  * @see ArmeDistance
  * @see Equipement
- *
- * @author Tom Abbouz
- * @version Février 2023
  */
 public enum ArmeSansRechargement implements ArmeDistance {
 
@@ -27,6 +26,10 @@ public enum ArmeSansRechargement implements ArmeDistance {
   HACHETTE("hachette", new De(6), false, 5.0, 2),
   JAVELOT("javelot", new De(6), false, 20.0, 6);
 
+  private static final List<ArmeSansRechargement> VALUES 
+      = Collections.unmodifiableList(Arrays.asList(values()));
+  private static final int SIZE = VALUES.size();
+  private static final Random RANDOM = new Random();
   private final String nom;
   private final De de;
   private final boolean deuxMains;
@@ -40,6 +43,30 @@ public enum ArmeSansRechargement implements ArmeDistance {
     this.deuxMains = deuxMains;
     this.portee = portee;
     this.prix = prix;
+  }
+
+  public static ArmeSansRechargement random() {
+
+    ArrayList<ArmeSansRechargement> possibles = new ArrayList<ArmeSansRechargement>();
+
+    for (int i = 0; i < SIZE; i++) {
+      if (VALUES.get(i).prix < 6) {
+        possibles.add(VALUES.get(i));
+      }
+    }
+
+    if (possibles.size() == 0) {
+      ArmeSansRechargement b = VALUES.get(0);
+      for (int i = 1; i < SIZE; i++) {
+        if (b.prix > VALUES.get(i).prix) {
+          b = VALUES.get(i);
+        }
+      }
+      return b;
+    }
+
+    int r = RANDOM.nextInt(possibles.size());
+    return VALUES.get(r);
   }
 
   @Override
@@ -75,33 +102,5 @@ public enum ArmeSansRechargement implements ArmeDistance {
   @Override
   public char getGlyph() {
     return glyph;
-  }
-  
-  private static final List<ArmeSansRechargement> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
-  private static final int SIZE = VALUES.size();
-  private static final Random RANDOM = new Random();
-
-  public static ArmeSansRechargement random()  {
-    
-    ArrayList<ArmeSansRechargement> possibles = new ArrayList<ArmeSansRechargement>();
- 
-    for(int i = 0 ; i < SIZE ; i++) {
-      if(VALUES.get(i).prix < 6) {
-        possibles.add(VALUES.get(i));
-      }
-    }
-    
-    if(possibles.size() == 0) {
-      ArmeSansRechargement b = VALUES.get(0);
-      for(int i = 1 ; i < SIZE ; i++) {
-        if(b.prix > VALUES.get(i).prix) {
-          b = VALUES.get(i);
-        }
-      }
-      return b;
-    }
-    
-    int r = RANDOM.nextInt(possibles.size());
-    return VALUES.get(r);
   }
 }

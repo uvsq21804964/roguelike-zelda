@@ -8,17 +8,15 @@ package fr.uvsq.pglp.roguelike.echangeable;
  * doivent être rechargées.</p>
  *
  * <p> Il en exsite trois types : les {@link ArmeRechargementLimite}s sont reconnaissables
- * par un ';' ; {@link ArmeRechargementSimple}s sont reconnaissables par un '!' et les 
+ * par un ';' ; {@link ArmeRechargementSimple}s sont reconnaissables par un '!' et les
  * {@link ArmeSansRechargement}s sont reconnaissables par un '?'.</p>
- *
- * @see Arme
- *
- * @see ArmeRechargementLimite
- * @see ArmeRechargementSimple
- * @see ArmeSansRechargement
  *
  * @author Tom Abbouz
  * @version Février 2023
+ * @see Arme
+ * @see ArmeRechargementLimite
+ * @see ArmeRechargementSimple
+ * @see ArmeSansRechargement
  */
 interface ArmeDistance extends Arme {
 

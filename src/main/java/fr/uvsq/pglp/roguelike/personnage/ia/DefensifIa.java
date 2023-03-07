@@ -1,19 +1,17 @@
 package fr.uvsq.pglp.roguelike.personnage.ia;
 
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
-import java.util.List;
 
 /**
  * Intelligence artificielle pour les PNJs défensifs.
  *
  * <p>Chaque PNJ défensif possède un point/objet à défendre. Dès ors que le
- * personnage joueur s'approche de trop près de ce point, alors lle 
+ * personnage joueur s'approche de trop près de ce point, alors lle
  * PNJ défensif ira attaquer le personnage joueur, jusqu'à ce qu'il s'éloigne assez.</p>
  *
- * @see PersonnageIa
- * 
  * @author Tom Abbouz
  * @version Février 2023
+ * @see PersonnageIa
  */
 public class DefensifIa extends PersonnageIa {
 
@@ -23,7 +21,7 @@ public class DefensifIa extends PersonnageIa {
   public DefensifIa(Personnage personnage) {
     super(personnage);
   }
-  
+
 //
 //  @Override
 //  boolean doitChasser() {
