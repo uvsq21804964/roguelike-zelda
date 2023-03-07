@@ -1,5 +1,6 @@
 package fr.uvsq.pglp.roguelike.personnage;
 
+import fr.uvsq.pglp.roguelike.donjon.elements.ElementEtage;
 import fr.uvsq.pglp.roguelike.personnage.ia.PersonnageIa;
 
 /**
@@ -27,4 +28,14 @@ public interface Personnage {
   void genererPersonnageIa();
   
   PersonnageIa getIa();
+
+  void morceauEtage(ElementEtage elementEtage);
+  
+  ElementEtage getElementEtage();
+
+  void setX(int x);
+
+  void setY(int y);
+
+  void notifier(String message, Object... params);
 }

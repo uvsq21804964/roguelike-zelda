@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.uvsq.pglp.roguelike.donjon.elements.ElementEtage;
+import fr.uvsq.pglp.roguelike.donjon.elements.Ouvrable;
 import fr.uvsq.pglp.roguelike.donjon.elements.Porte;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import fr.uvsq.pglp.roguelike.echangeable.ArmeContact;
@@ -28,7 +29,7 @@ public abstract class MorceauEtage implements ElementEtage {
     protected Tile tiles[][];
     protected List<Personnage> personnages  = new ArrayList<Personnage>();
     protected Echangeable echangeables[][];
-    protected Porte portes[][];
+    protected Ouvrable ouvrables[][];
     protected Personnage joueur = null;
     
     private static ArrayList<String> prenoms = new ArrayList<String>();
@@ -37,7 +38,7 @@ public abstract class MorceauEtage implements ElementEtage {
         this.largeur = largeur;
         this.longueur = longueur;
         this.tiles = new Tile[largeur][longueur];
-        this.portes  = new Porte[largeur][longueur];
+        this.ouvrables  = new Ouvrable[largeur][longueur];
         this.nbEquipement = nbEquipement;
         this.nbEnnemis = nbEnnemis;
         this.echangeables = new Echangeable[largeur][longueur];
@@ -46,7 +47,7 @@ public abstract class MorceauEtage implements ElementEtage {
             for(int j = 0 ; j < longueur ; j++) {
                 tiles[i][j] = Tile.FLOOR;
                 echangeables[i][j] = null;
-                portes[i][j] = null;
+                ouvrables[i][j] = null;
             }
         }
 
@@ -167,8 +168,8 @@ public abstract class MorceauEtage implements ElementEtage {
     }
 
     @Override
-    public Porte portes(int k, int j) {
-      return portes[k][j];
+    public Ouvrable ouvrables(int k, int j) {
+      return ouvrables[k][j];
     }
 
     @Override
@@ -208,6 +209,7 @@ public abstract class MorceauEtage implements ElementEtage {
                                  .build();
              personnages.add(joueur);
              this.joueur = joueur;
+             joueur.morceauEtage(this);
              break;
          }
       }
@@ -240,5 +242,9 @@ public abstract class MorceauEtage implements ElementEtage {
         return new PersonnageDonjon.PersonnageBuilder(prenom, x, y)
                                    .setIa(typeIa)
                                    .build();
+    }
+    
+    public void setTiles(int i, int j, Tile tile) {
+      tiles[i][j] = tile;
     }
 }

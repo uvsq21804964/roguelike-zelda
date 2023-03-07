@@ -10,5 +10,5 @@ package fr.uvsq.pglp.roguelike.ihm;
  * @version mars 2023
  */
 
-public interface Console extends CommandesConsole, EcranConsole {    
+public interface Console extends CommandesConsole, EcranConsole {
 }

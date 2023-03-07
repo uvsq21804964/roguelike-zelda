@@ -18,40 +18,68 @@ public class AfficherElementEtage {
         this.element = element;
     }
 
-
     public void afficher(EcranConsole console) {
 
-          for(int j = 0 ; j < element.longueur() ; j++) {
+      for(int j = 0 ; j < element.longueur() ; j++) {
+        
+        for(int k = 0 ; k < element.largeur() ; k++) {
+
+            Proprietes p = new Proprietes(".", Color.GRAY);
+
+            afficherMur(p, j, k);
+            afficherOuvrables(p, j, k);
+            afficherEchangeable(p, j, k);
+            afficherPnj(p, j, k);
+            afficherJoueur(p, j, k);
             
-            for(int k = 0 ; k < element.largeur() ; k++) {
- 
-                String a = ".";
-                Color c = Color.GRAY;
-                
-                if (element.personnages(k, j) == element.getJoueur()) {
-                  a = "@";
-                  c = Color.WHITE;
-                } else if (element.personnages(k, j) != null) {
-                  String nom = element.personnages(k, j).getNom();
-                  a = nom.substring(0, 1);
-                  c = couleurPersonnage(element.personnages(k, j));
-                } else if (element.echangeables(k, j) != null) {
-                  a = "" + element.echangeables(k, j).getGlyph();
-                  c = Color.GREEN;
-                } else if(element.portes(k,j) != null) {
-                    a = "0";
-                    c = Color.RED;
-                } else if (element.tiles(k,j).equals(Tile.WALL)) {
-                    a = "#";
-                    c = Color.WHITE;
-                }
-                console.print(a, c);
-            }
-            console.println("");
+            console.print(p.getGlyph(), p.getCouleur());
         }
+        console.println("");
+      }
+    }
+
+    private void afficherMur(Proprietes p, int j, int k) {
+      if (element.tiles(k,j).equals(Tile.WALL)) {
+        p.setGlyph("#");
+        p.setCouleur(Color.WHITE);
+      }
     }
 
 
+    private void afficherOuvrables(Proprietes p, int j, int k) {
+      if(element.ouvrables(k,j) != null && !element.ouvrables(k,j).isOuverte()) {
+        if(element.ouvrables(k,j) instanceof Porte) {
+          p.setGlyph("0");
+        } else if(element.ouvrables(k,j) instanceof Tresor) {
+          p.setGlyph("*");
+        }
+        p.setCouleur(couleurOuvrable(element.tiles(k,j)));
+      }
+    }
+    
+    private Color couleurOuvrable(Tile tiles) {
+      if(tiles.aCrocheter()) {
+        return Color.RED;
+      } 
+      return new Color(255, 100, 0);
+    }
+
+    private void afficherEchangeable(Proprietes p, int j, int k) {
+      if (element.echangeables(k, j) != null) {
+        p.setGlyph("" + element.echangeables(k, j).getGlyph());
+        p.setCouleur(Color.GREEN);
+      } 
+    }
+
+
+    private void afficherPnj(Proprietes p, int j, int k) {
+      if (element.personnages(k, j) != null) {
+        String nom = element.personnages(k, j).getNom();
+        p.setGlyph(nom.substring(0, 1));
+        p.setCouleur(couleurPersonnage(element.personnages(k, j)));
+      }
+    }
+    
     private Color couleurPersonnage(Personnage personnage) {
        PersonnageIa personnageIa = personnage.getIa();
        
@@ -68,4 +96,10 @@ public class AfficherElementEtage {
        }
     }
 
+    private void afficherJoueur(Proprietes p, int j, int k) {
+      if (element.personnages(k, j) == element.getJoueur()) {
+        p.setGlyph("@");
+        p.setCouleur(Color.WHITE);
+      }
+    }
 }

@@ -1,6 +1,9 @@
 package fr.uvsq.pglp.roguelike.personnage.ia;
 
 
+import java.util.List;
+
+import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
 /**
@@ -36,24 +39,27 @@ public abstract class PersonnageIa {
     this.personnage = personnage;
   }
 
-//  /**
-//   * Déplace le personnage s'il n'y a pas d'obstacle.
-//   *
-//   * @param x Coordonnée X visée
-//   * @param y Coordonnée Y visée
-//   * @param tile La de correspondant à la position (x,y).
-//   */
-//  public void onEnter(int x, int y, Tile tile) {
-//    if (tile.isGround()) {
-//      personnage.setX(x);
-//      personnage.setY(y);
-//    } else {
-//      if (tile.equals(Tile.WALL)) {
-//        notifier("C'est une paroi !");
-//      }
-//    }
-//  }
-//  
+  /**
+   * Déplace le personnage s'il n'y a pas d'obstacle.
+   *
+   * @param x Coordonnée X visée
+   * @param y Coordonnée Y visée
+   * @param tile La de correspondant à la position (x,y).
+   */
+  public void onEnter(int x, int y, Tile tile) {
+    if (tile.isGround()) {
+      personnage.setX(x);
+      personnage.setY(y);
+    }
+  }
+
+  public void notifier(String format) {
+  }
+
+  public List<String> getMessages() {
+    return null;
+  }
+  
 //  /**
 //   * Fonction principale du pattern <b>Template method</b>.
 //   * 

@@ -12,10 +12,9 @@ public class CommandFactory {
     private static Console console;
     private static Facade facade;
 
-    private CommandFactory(Console console, Screen screen) {
+    private CommandFactory(Console console) {
         this.commands = new HashMap<>();
         CommandFactory.console = console;
-        CommandFactory.facade = new Facade(screen);
     }
 
     public void addCommand(String name, Command command) {
@@ -29,14 +28,17 @@ public class CommandFactory {
     }
 
     public boolean containCommand(String name) {
+        if(facade == null) {
+          CommandFactory.facade = new Facade(console);
+        }
         if (this.commands.containsKey(name)) {
             return true;
         }
         return false;
     }
 
-    public static CommandFactory init(Console console, Screen screen) {
-        CommandFactory cf = new CommandFactory(console, screen);
+    public static CommandFactory init(Console console) {
+        CommandFactory cf = new CommandFactory(console);
 
         cf.addCommand("déplacer", (String s) -> {deplacer(s);});
         cf.addCommand("sauter", (String s) -> {sauter(s);});

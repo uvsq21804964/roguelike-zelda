@@ -31,7 +31,7 @@ public class ConsoleTexte implements Console {
 
     public StyledDocument document;
 
-    private CommandFactory cf = CommandFactory.init(this, screen);
+    private CommandFactory cf = CommandFactory.init(this); 
 
     ArrayList<String> recent_used = new ArrayList<String>();
     int recent_used_id = 0;
@@ -309,6 +309,10 @@ public class ConsoleTexte implements Console {
     @Override
     public void message(String s) {
         JOptionPane.showMessageDialog(null, s, "Message", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public PlayScreen getScreen() {
+      return (PlayScreen) screen;
     }
 }
 

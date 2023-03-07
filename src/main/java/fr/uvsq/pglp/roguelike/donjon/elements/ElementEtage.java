@@ -11,7 +11,7 @@ public interface ElementEtage {
 
   Tile tiles(int k, int j);
 
-  Porte portes(int k, int j);
+  Ouvrable ouvrables(int k, int j);
   
   Echangeable echangeables(int k, int j);
 

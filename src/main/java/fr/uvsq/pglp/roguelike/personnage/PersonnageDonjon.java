@@ -1,5 +1,13 @@
 package fr.uvsq.pglp.roguelike.personnage;
 
+import java.util.ArrayList;
+
+import fr.uvsq.pglp.roguelike.donjon.MorceauEtage;
+import fr.uvsq.pglp.roguelike.donjon.elements.ElementEtage;
+import fr.uvsq.pglp.roguelike.donjon.elements.Ouvrable;
+import fr.uvsq.pglp.roguelike.donjon.elements.Porte;
+import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
+import fr.uvsq.pglp.roguelike.donjon.elements.Tresor;
 import fr.uvsq.pglp.roguelike.echangeable.ArmureDeCorps;
 import fr.uvsq.pglp.roguelike.echangeable.Equipement;
 import fr.uvsq.pglp.roguelike.personnage.ia.AgressifIa;
@@ -31,6 +39,7 @@ public class PersonnageDonjon implements Personnage {
   private final String nom;
   private final TypeIa typeIa;
   private PersonnageIa Ia;
+  private MorceauEtage morceauEtage;
 
   private int axeX;
   private int axeY;
@@ -100,7 +109,7 @@ public class PersonnageDonjon implements Personnage {
       Ia = new DefensifIa(this);
       break;
     case JOUEUR:
-      Ia = new JoueurIa(this);
+      Ia = new JoueurIa(this, new ArrayList<String>());
       break;
     case NEUTRE:
       Ia = new NeutreIa(this);
@@ -134,6 +143,55 @@ public class PersonnageDonjon implements Personnage {
   @Override
   public PersonnageIa getIa() {
     return Ia;
+  }
+
+  public void moveBy(int mx, int my){
+    if (mx==0 && my==0)
+      return;
+    
+    
+    Tile tile = morceauEtage.tiles(axeX+mx, axeY+my);
+    
+    Ouvrable porte = morceauEtage.ouvrables(axeX+mx, axeY+my);
+    if(porte != null && !porte.isOuverte() && porte instanceof Porte) {
+        Ia.notifier("C'est " + tile.nom() + " !");
+    }
+    Personnage other = morceauEtage.personnages(axeX+mx, axeY+my);
+    
+    if (other == null) {
+        Ia.onEnter(axeX+mx, axeY+my, tile);
+    } else {
+      Ia.notifier("Il y a déjà " + other.getNom() + " ici.");
+    }
+  }
+
+  @Override
+  public void morceauEtage(ElementEtage elementEtage) {
+    this.morceauEtage = (MorceauEtage) elementEtage;
+  }
+  
+  public MorceauEtage getMorceauEtage() {
+    return morceauEtage;
+  }
+
+  @Override
+  public void setX(int x) {
+    axeX = x;
+  }
+
+  @Override
+  public void setY(int y) {
+    axeY = y;
+  }
+
+  @Override
+  public void notifier(String message, Object ... params){
+    Ia.notifier(String.format(message, params));
+  }
+
+  @Override
+  public ElementEtage getElementEtage() {
+    return morceauEtage;
   }
 }
 

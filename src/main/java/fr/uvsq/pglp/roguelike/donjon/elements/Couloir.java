@@ -11,8 +11,6 @@ public abstract class Couloir extends MorceauEtage {
 		super(largeur, longueur, nbEquipement, nbEnnemis);
 		this.salle1 = salle1;
 		this.salle2 = salle2;
-		// ajouterEquipements();
-		// ajouterEnnemis();
 	}
 
 	@Override 
@@ -22,21 +20,21 @@ public abstract class Couloir extends MorceauEtage {
 			if (largeur > longueur) {
 				int a = (int) (Math.random()*(tiles[0].length - 2)) + 1;
 				tiles[tiles.length - 1][a] = porte.getType();
-				portes[tiles.length - 1][a] = porte;
+				ouvrables[tiles.length - 1][a] = porte;
 			} else {
 				int a = (int) (Math.random()*(tiles.length - 2)) + 1;
 				tiles[a][tiles[0].length - 1] = porte.getType();
-				portes[a][tiles[0].length - 1] = porte;
+				ouvrables[a][tiles[0].length - 1] = porte;
 			}
 		} else {
 			if (largeur > longueur) {
 				int a = (int) (Math.random()*(tiles[0].length - 2)) + 1;
 				tiles[0][a] = porte.getType();
-				portes[0][a] = porte;
+				ouvrables[0][a] = porte;
 			} else {
 				int a = (int) (Math.random()*(tiles.length - 2)) + 1;
 				tiles[a][0] = porte.getType();
-				portes[a][0] = porte;
+				ouvrables[a][0] = porte;
 			}
 		}
 	}

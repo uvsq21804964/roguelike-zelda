@@ -10,39 +10,38 @@ public abstract class Salle extends MorceauEtage {
 		super(largeur, longueur, nbEquipement, nbEnnemis);
 		this.numero = numero;
 		ajouterTresor();
-		// ajouterEnnemis();
-		// ajouterEquipements();
 	}
 	
 	private void ajouterTresor()  {
 
-		int a = (int) (Math.random()*100);
+		int a = (int) (Math.random()*10);
 		
 		int nbTresors = 0;
 
-		if (a < 1) {
+		if (a < 3) {
 			nbTresors = 3;
-		} else if (a < 5) {
+		} else if (a < 7) {
 			nbTresors = 2;
-		} else if(a < 30) {
+		} else if(a < 9) {
 			nbTresors = 1;
 		}
 
 		while (nbTresors > 0) {
 			int x = (int) (Math.random()*tiles.length);
 			int y = (int) (Math.random()*tiles[0].length);
-			if (tiles[x][y].equals(Tile.FLOOR)) {
+			if (tiles[x][y].equals(Tile.FLOOR) && ouvrables[x][y] == null) {
 
-				switch((int) (Math.random()*2)) {
+				switch((int) (Math.random()*3)) {
 					case 0 :
-						tiles[x][y] = Tile.CHEST;
-						break;
 					case 1 :
-						tiles[x][y] = Tile.BOX;
+						ouvrables[x][y] = new Tresor(Tile.BOX);
+						break;
+					case 2 :
+					  ouvrables[x][y] = new Tresor(Tile.CHEST);
 						break;
 				}
+				nbTresors--;
 			}
-			nbTresors--;
 		}
 	}
 
@@ -54,19 +53,19 @@ public abstract class Salle extends MorceauEtage {
 		if(c.numeroSalle1() == numero + 1 || c.numeroSalle2() == numero + 1) {
 			int a = (int) (Math.random()*(tiles[0].length - 2)) + 1;
 			tiles[tiles.length - 1][a] = porte.getType();
-			portes[tiles.length - 1][a] = porte;
+			ouvrables[tiles.length - 1][a] = porte;
 		} else if(c.numeroSalle1() == numero - 1 || c.numeroSalle2() == numero - 1) {
 			int a = (int) (Math.random()*(tiles[0].length - 2)) + 1;
 			tiles[0][a] = porte.getType();
-			portes[0][a] = porte;
+			ouvrables[0][a] = porte;
 		} else if(c.numeroSalle1() == numero + 3 || c.numeroSalle2() == numero + 3) {
 			int a = (int) (Math.random()*(tiles.length - 2)) + 1;
 			tiles[a][tiles[0].length - 1] = porte.getType();
-			portes[a][tiles[0].length - 1] = porte;
+			ouvrables[a][tiles[0].length - 1] = porte;
 		} else if(c.numeroSalle1() == numero - 3 || c.numeroSalle2() == numero - 3) {
 			int a = (int) (Math.random()*(tiles.length - 2)) + 1;
 			tiles[a][0] = porte.getType();
-			portes[a][0] = porte;
+			ouvrables[a][0] = porte;
 		}
 	}
 }

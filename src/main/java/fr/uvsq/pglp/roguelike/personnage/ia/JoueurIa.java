@@ -1,5 +1,7 @@
 package fr.uvsq.pglp.roguelike.personnage.ia;
 
+import java.util.List;
+
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
 /**
@@ -16,7 +18,7 @@ import fr.uvsq.pglp.roguelike.personnage.Personnage;
  */
 public class JoueurIa extends PersonnageIa {
 
-  // private final List<String> messages;
+  private final List<String> messages;
   // private final FieldOfView fov;
 
   /**
@@ -26,16 +28,21 @@ public class JoueurIa extends PersonnageIa {
    * @param messages Une liste de messages devant lui être envoyés
    * @param fov Un champ de vision {@link FieldOfView}
    */
-  public JoueurIa(Personnage personnage) {
+  public JoueurIa(Personnage personnage, List<String> messages) {
     super(personnage);
-    // this.messages = messages;
+    this.messages = messages;
     // this.fov = fov;
   }
-//
-//  @Override
-//  public void notifier(String message) {
-//    //messages.add(message);
-//  }
+
+  @Override
+  public void notifier(String message) {
+    messages.add(message);
+  }
+  
+  @Override
+  public List<String> getMessages() {
+    return messages;
+  }
 //
 //  @Override
 //  public Tile souvenirTuile(int wx, int wy) {

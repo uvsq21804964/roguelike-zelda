@@ -1,7 +1,5 @@
 package fr.uvsq.pglp.roguelike.donjon.elements;
 
-import java.awt.Color;
-
 /**
  * Cette classe représente les différents types de tuiles
  * étant affichées : un glyphe et une couleur pour l'afficher.
@@ -12,35 +10,49 @@ import java.awt.Color;
  * @version Janvier 2023
  */
 public enum Tile {
-  FLOOR((char) 250, new Color(128, 128, 0)),
-  WALL((char) 177, new Color(128, 128, 0)),
-  UNKNOWN(' ', new Color(192, 192, 192)),
-  CHEST('X', new Color(17, 200, 38)),
-  BOX('x', new Color(17, 200, 38)),
-  PORTE('P', new Color(128, 0, 0)),
-  PORTEACROCHETER('P', new Color(128, 0, 0));
+  FLOOR("un magnifique carrelage"),
+  WALL("une paroi"),
+  UNKNOWN("un lieu inconnu"),
+  CHEST("un trésor à ouvrir"),
+  BOX("un trésor à forcer"),
+  PORTE("une porte à ouvrir"),
+  PORTEACROCHETER("une porte à crocheter");
 
-  private final char glyph;
-  private final Color color;
+  private final String nom;
 
-  Tile(char glyph, Color color) {
-    this.glyph = glyph;
-    this.color = color;
-  }
-
-  public char glyph() {
-    return glyph;
-  }
-
-  public Color color() {
-    return color;
+  Tile(String nom) {
+    this.nom = nom;
   }
 
   public boolean isGround() {
-    return this != WALL && this != BOX && this != CHEST;
+    return this != WALL && this != PORTE && this != PORTEACROCHETER;
   }
   
   public boolean isSautable() {
-    return this != WALL;
+    return this != WALL && this != PORTE && this != PORTEACROCHETER;
+  }
+  
+  public boolean aOuvrir() {
+    return (this.equals(PORTE) || this.equals(CHEST));
+  }
+  
+  public boolean aCrocheter() {
+    return this.equals(PORTEACROCHETER);
+  }
+  
+  public boolean aForcer() {
+    return this.equals(BOX);
+  }
+  
+  public boolean isTresor() {
+    return (this.equals(BOX) || this.equals(CHEST));
+  }
+  
+  public String nom() {
+    return nom;
+  }
+
+  public boolean isPorte() {
+    return (this.equals(PORTE) || this.equals(PORTEACROCHETER));
   }
 }

@@ -1,6 +1,7 @@
 package fr.uvsq.pglp.roguelike.ihm.screen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.uvsq.pglp.roguelike.donjon.Donjon;
 import fr.uvsq.pglp.roguelike.donjon.elements.AfficherElementEtage;
@@ -8,6 +9,8 @@ import fr.uvsq.pglp.roguelike.donjon.elements.Couloir;
 import fr.uvsq.pglp.roguelike.donjon.elements.ElementEtage;
 import fr.uvsq.pglp.roguelike.donjon.elements.Salle;
 import fr.uvsq.pglp.roguelike.ihm.Console;
+import fr.uvsq.pglp.roguelike.personnage.Personnage;
+import fr.uvsq.pglp.roguelike.personnage.PersonnageDonjon;
 
 /**
  * Cette classe affiche l'univers du jeu avec le PJ,
@@ -24,18 +27,31 @@ public class PlayScreen implements Screen {
     private Salle salles[];
     private ArrayList<Couloir> couloirs =  new ArrayList<Couloir>();
     private ElementEtage courant;
+    private Personnage joueur;
+    private List<String> messages;
 
     public PlayScreen() {
         Donjon donjon = new Donjon();
         this.salles = donjon.getSalles();
         this.couloirs = donjon.getCouloirs();
-        this.courant = salles[0];
+        this.joueur = donjon.getJoueur();
+        this.courant = joueur.getElementEtage();
+        this.messages = joueur.getIa().getMessages();
     }
 
     @Override
     public void displayOutput(Console console) {
         new AfficherElementEtage(courant).afficher(console);
+        displayMessages(console, messages);
     }
+    
+    private void displayMessages(Console console, List<String> messages) {
+      console.sauts(3);
+      for (int i = 0; i < messages.size(); i++) {
+          console.println(messages.get(i));
+      }
+      messages.clear();
+   }
 
     @Override
     public boolean commande(String s) {
@@ -45,5 +61,9 @@ public class PlayScreen implements Screen {
     @Override
     public Screen autreScreen(String s) {
         return this;
+    }
+
+    public PersonnageDonjon getJoueur() {
+      return (PersonnageDonjon) joueur;
     }
 }

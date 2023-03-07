@@ -2,6 +2,8 @@ package fr.uvsq.pglp.roguelike.ihm;
 
 import java.awt.Color;
 
+import fr.uvsq.pglp.roguelike.ihm.screen.Screen;
+
 public interface EcranConsole {
     
     public void println(String s);
@@ -15,4 +17,6 @@ public interface EcranConsole {
     public void print(String a, Color c);
     
     public void println(String s, Color c);
+    
+    public Screen getScreen();
 }

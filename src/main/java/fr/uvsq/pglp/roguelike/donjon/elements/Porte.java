@@ -1,6 +1,6 @@
 package fr.uvsq.pglp.roguelike.donjon.elements;
 
-public class Porte {
+public class Porte implements Ouvrable {
     
     private Tile type;
     private Salle salle;
@@ -30,6 +30,25 @@ public class Porte {
     }
 
     public void ouvrir() {
+        remplacerTuile();
         this.ouverte = true;
+    }
+
+    private void remplacerTuile() {
+      for(int i = 0 ; i < salle.largeur() ; i++) {
+        for(int j = 0 ; j < salle.longueur() ; j++) {
+          if(salle.ouvrables(i, j).equals(this)) {
+            salle.setTiles(i, j, Tile.FLOOR);
+          }
+        }
+      }
+      
+      for(int i = 0 ; i < couloir.largeur() ; i++) {
+        for(int j = 0 ; j < couloir.longueur() ; j++) {
+          if(couloir.ouvrables(i, j).equals(this)) {
+            couloir.setTiles(i, j, Tile.FLOOR);
+          }
+        }
+      }
     }
 }
