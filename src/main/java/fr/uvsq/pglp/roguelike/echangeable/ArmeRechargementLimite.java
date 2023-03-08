@@ -20,9 +20,9 @@ import java.util.Random;
  */
 public enum ArmeRechargementLimite implements ArmeDistance {
 
-  ARBALETELOURDE("arbalete lourde", new De(3, 4), true, 60.0, 12),
-  MOUSQUET("mousquet", new De(2, 6), true, 50.0, 20),
-  PETOIRE("petoire", new De(10), false, 20.0, 15);
+  ARBALETELOURDE("une arbalète lourde", new De(3, 4), true, 60.0, 12),
+  MOUSQUET("un mousquet", new De(2, 6), true, 50.0, 20),
+  PETOIRE("un pétoire", new De(10), false, 20.0, 15);
 
   private static final List<ArmeRechargementLimite> VALUES 
       = Collections.unmodifiableList(Arrays.asList(values()));
@@ -42,13 +42,19 @@ public enum ArmeRechargementLimite implements ArmeDistance {
     this.portee = portee;
     this.prix = prix;
   }
-
-  public static ArmeRechargementLimite random() {
+  
+  /**
+   * Renvoie une valeur d'{@link ArmeRechargementLimite} dont le prix est 
+   * inférieur au cout indiqué choisi aléatoirement.
+   *
+   * @return {@link ArmeRechargementLimite} dont le prix est inférieur au cout indiqué.
+   */
+  public static ArmeRechargementLimite random(int cout) {
 
     ArrayList<ArmeRechargementLimite> possibles = new ArrayList<ArmeRechargementLimite>();
 
     for (int i = 0; i < SIZE; i++) {
-      if (VALUES.get(i).prix < 6) {
+      if (VALUES.get(i).prix < cout) {
         possibles.add(VALUES.get(i));
       }
     }

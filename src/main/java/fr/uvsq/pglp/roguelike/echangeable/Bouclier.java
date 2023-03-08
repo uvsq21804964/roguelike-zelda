@@ -21,8 +21,8 @@ import java.util.Random;
  */
 public enum Bouclier implements Armure {
 
-  PETITBOUCLIER("petit bouclier", 1, 2),
-  GRANDBOUCLIER("grand bouclier", 2, 4);
+  PETITBOUCLIER("un petit bouclier", 1, 2),
+  GRANDBOUCLIER("un grand bouclier", 2, 4);
 
   private static final List<Bouclier> VALUES 
       = Collections.unmodifiableList(Arrays.asList(values()));
@@ -41,12 +41,18 @@ public enum Bouclier implements Armure {
     this.prix = prix;
   }
 
-  public static Bouclier random() {
+  /**
+   * Renvoie une valeur d'{@link Bouclier} dont le prix est 
+   * inférieur au cout indiqué choisi aléatoirement.
+   *
+   * @return {@link Bouclier} dont le prix est inférieur au cout indiqué.
+   */
+  public static Bouclier random(int cout) {
 
     ArrayList<Bouclier> possibles = new ArrayList<Bouclier>();
 
     for (int i = 0; i < SIZE; i++) {
-      if (VALUES.get(i).prix < 6) {
+      if (VALUES.get(i).prix < cout) {
         possibles.add(VALUES.get(i));
       }
     }

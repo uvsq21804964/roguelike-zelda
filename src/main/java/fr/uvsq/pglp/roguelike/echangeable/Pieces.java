@@ -26,11 +26,14 @@ public class Pieces implements Echangeable {
 
   @Override
   public String getNom() {
+    if(valeur == 1) {
+      return ("1 pièce d'argent");
+    }
+    
     return (valeur + " pièces d'argent");
   }
 
   public int getValeur() {
     return valeur;
   }
-
 }

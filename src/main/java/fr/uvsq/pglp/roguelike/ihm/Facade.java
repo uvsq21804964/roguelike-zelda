@@ -3,6 +3,20 @@ package fr.uvsq.pglp.roguelike.ihm;
 import fr.uvsq.pglp.roguelike.ihm.screen.PlayScreen;
 import fr.uvsq.pglp.roguelike.personnage.PersonnageDonjon;
 
+/**
+ * Classe façade pour les {@link CommandFactory}.
+ *
+ * <p>Fais le lien entre la {@link ConsoleTexte} et la couche métier.</p>
+ *
+ * <p>Facade fournit une interface simplifiée pour un ensemble de classes. 
+ * Simplifie l’usage et la compréhension de l’interface dans son contexte.
+ * Réduit le couplage entre les clients et les classes.</p>
+ *
+ * <p>Fonctionne en effectuant des actions sur le joueur de l'{@link UniversDeJeu}.</p>
+ *
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public class Facade {
 
   private PersonnageDonjon joueur;
@@ -12,6 +26,13 @@ public class Facade {
     this.joueur = playscreen.getJoueur();
   }
 
+  /**
+   * Ordonne au joueur de se déplacer s'il le peut.
+   *
+   * <p>Appelle à la méthode {@link PersonnageDonjon#moveBy(int, int)}.
+   *
+   * @param s L'objet de la commande 'déplacer'.
+   */
   public void deplacer(String s) {
     switch (s) {
       case "droite":
@@ -31,34 +52,43 @@ public class Facade {
     }
   }
 
-  public void sauter(String s) {
-    // TODO Auto-generated method stub
-
+  public void ouvrir(String s) {
+    switch (s) {
+    case "porte":
+      joueur.ouvrirPorte();
+      break;
+    case "coffre":
+      joueur.ouvrirCoffre();
+      break;
+    default:
+      break;
+    }
   }
 
-  public void franchir(String s) {
-    // TODO Auto-generated method stub
-
+  public void crocheter(String s) {
+    switch (s) {
+    case "porte":
+      joueur.crocheterPorte();
+      break;
+    case "coffre":
+      joueur.notifier("Aucun coffre n'est crochetable dans ce jeu!");
+      break;
+    default:
+      break;
+    }
   }
 
-  public void ramasser(String s) {
-    // TODO Auto-generated method stub
-
-  }
-
-  public void parler(String s) {
-    // TODO Auto-generated method stub
-
-  }
-
-  public void soutirer(String s) {
-    // TODO Auto-generated method stub
-
-  }
-
-  public void convaincre(String s) {
-    // TODO Auto-generated method stub
-
+  public void forcer(String s) {
+    switch (s) {
+    case "porte":
+      joueur.notifier("Aucune porte n'est forçable dans ce jeu!");
+      break;
+    case "coffre":
+      joueur.forcerCoffre();
+      break;
+    default:
+      break;
+    }
   }
 
 }

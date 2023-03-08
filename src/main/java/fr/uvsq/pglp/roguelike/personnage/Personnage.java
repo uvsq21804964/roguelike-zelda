@@ -38,4 +38,10 @@ public interface Personnage {
   ElementEtage getElementEtage();
 
   void notifier(String message, Object... params);
+
+  void update();
+
+  void moveBy(int mx, int my);
+
+  Personnage personnage(int i, int j);
 }

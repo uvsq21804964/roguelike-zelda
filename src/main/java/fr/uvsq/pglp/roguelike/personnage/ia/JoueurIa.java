@@ -41,6 +41,9 @@ public class JoueurIa extends PersonnageIa {
   public List<String> getMessages() {
     return messages;
   }
+  
+  @Override
+  public void errer() {}
   //
   //  @Override
   //  public Tile souvenirTuile(int wx, int wy) {

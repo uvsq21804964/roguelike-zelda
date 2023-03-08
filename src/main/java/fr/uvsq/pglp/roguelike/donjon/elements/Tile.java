@@ -9,7 +9,7 @@ package fr.uvsq.pglp.roguelike.donjon.elements;
  * @author Tom Abbouz
  * @version Janvier 2023
  */
-public enum Tile {
+public enum Tile implements Tuile {
   FLOOR("un magnifique carrelage"),
   WALL("une paroi"),
   UNKNOWN("un lieu inconnu"),
@@ -24,8 +24,9 @@ public enum Tile {
     this.nom = nom;
   }
 
+  @Override
   public boolean isGround() {
-    return this != WALL && this != PORTE && this != PORTEACROCHETER;
+    return this != WALL;
   }
 
   public boolean isSautable() {
@@ -48,6 +49,7 @@ public enum Tile {
     return (this.equals(BOX) || this.equals(CHEST));
   }
 
+  @Override
   public String nom() {
     return nom;
   }

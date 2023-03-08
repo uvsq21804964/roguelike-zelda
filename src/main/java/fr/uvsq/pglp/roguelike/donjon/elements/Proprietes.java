@@ -2,6 +2,16 @@ package fr.uvsq.pglp.roguelike.donjon.elements;
 
 import java.awt.Color;
 
+/**
+ * Classe pour afficher un élément du jeu ({@link Personnage}, 
+ * {@link Echangeable} ou {@link Tuile}).
+ *
+ * <p>L'affichage d'un élément nécessite un glyph et une couleur.</p>
+ *
+ * @see AfficherElementEtage#afficher(fr.uvsq.pglp.roguelike.ihm.EcranConsole)
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public class Proprietes {
 
   private String glyph;

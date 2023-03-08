@@ -10,6 +10,7 @@ package fr.uvsq.pglp.roguelike.echangeable;
  * @version Février 2023
  * @see Arme
  * @see Armure
+ * @see Echangeable
  */
 public interface Equipement extends Echangeable {
 

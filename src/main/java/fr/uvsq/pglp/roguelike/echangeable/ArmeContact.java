@@ -18,20 +18,20 @@ import java.util.Random;
  */
 public enum ArmeContact implements Arme {
 
-  BATON("baton", new De(4), true, 0),
-  BATONFERRE("baton ferre", new De(4), true, 2),
-  DAGUE("dague", new De(4), false, 3),
-  EPEE2MAINS("epee a deux mains", new De(2, 6), true, 10),
-  EPEECOURTE("epee courte", new De(6), false, 5),
-  EPEELONGUE("epee longue", new De(8), false, 6),
-  GOURDIN("gourdin", new De(4), false, 1),
-  HACHE("hache", new De(8), false, 6),
-  HACHE2MAINS("hache a deux mains", new De(2, 6), true, 10),
-  KATANA("katana", new De(10), true, 12),
-  MARTEAUDEGUERRE("marteau de guerre", new De(4), false, 12),
-  MASSEDARMES("masse d'armes", new De(6), false, 4),
-  RAPIERE("rapiere", new De(6), false, 6),
-  VIVELAME("vivelame", new De(10), true, 12);
+  BATON("un baton", new De(4), true, 0),
+  BATONFERRE("un baton ferre", new De(4), true, 2),
+  DAGUE("une dague", new De(4), false, 3),
+  EPEE2MAINS("une épée a deux mains", new De(2, 6), true, 10),
+  EPEECOURTE("une épée courte", new De(6), false, 5),
+  EPEELONGUE("une épée longue", new De(8), false, 6),
+  GOURDIN("un gourdin", new De(4), false, 1),
+  HACHE("une hache", new De(8), false, 6),
+  HACHE2MAINS("une hache à deux mains", new De(2, 6), true, 10),
+  KATANA("un katana", new De(10), true, 12),
+  MARTEAUDEGUERRE("un marteau de guerre", new De(4), false, 12),
+  MASSEDARMES("une masse d'armes", new De(6), false, 4),
+  RAPIERE("une rapière", new De(6), false, 6),
+  VIVELAME("un vivelame", new De(10), true, 12);
 
   private static final List<ArmeContact> VALUES 
       = Collections.unmodifiableList(Arrays.asList(values()));
@@ -50,12 +50,18 @@ public enum ArmeContact implements Arme {
     this.prix = prix;
   }
 
-  public static ArmeContact random() {
+  /**
+   * Renvoie une valeur d'{@link ArmeContact} dont le prix est 
+   * inférieur au cout indiqué choisi aléatoirement.
+   *
+   * @return {@link ArmeContact} dont le prix est inférieur au cout indiqué.
+   */
+  public static ArmeContact random(int cout) {
 
     ArrayList<ArmeContact> possibles = new ArrayList<ArmeContact>();
 
     for (int i = 0; i < SIZE; i++) {
-      if (VALUES.get(i).prix < 6) {
+      if (VALUES.get(i).prix < cout) {
         possibles.add(VALUES.get(i));
       }
     }

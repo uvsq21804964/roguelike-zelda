@@ -28,8 +28,13 @@ public class AfficherElementEtage {
     this.element = element;
   }
 
+  /**
+   * Affiche l'{@link ElementEtage} dans lequel se trouve le joueur.
+   *
+   * @param console Console sur laquelle on affiche l'{@link ElementEtage}.
+   */
   public void afficher(EcranConsole console) {
-
+    
     for (int j = 0; j < element.longueur(); j++) {
 
       for (int k = 0; k < element.largeur(); k++) {
@@ -57,18 +62,24 @@ public class AfficherElementEtage {
 
 
   private void afficherOuvrables(Proprietes p, int j, int k) {
-    if (element.ouvrables(k, j) != null && !element.ouvrables(k, j).isOuverte()) {
-      if (element.ouvrables(k, j) instanceof Porte) {
+    
+    Ouvrable ouvrable = element.ouvrables(k, j);
+    if (ouvrable != null && !ouvrable.isOuverte()) {
+      if (ouvrable instanceof Porte) {
         p.setGlyph("0");
-      } else if (element.ouvrables(k, j) instanceof Tresor) {
+      } else if (ouvrable instanceof Tresor) {
         p.setGlyph("*");
       }
-      p.setCouleur(couleurOuvrable(element.tiles(k, j)));
+      if(element.ouvrables(k, j).isOuverte()) {
+        p.setCouleur(Color.GREEN);
+      } else {
+        p.setCouleur(couleurOuvrable(ouvrable.getType()));
+      }
     }
   }
 
   private Color couleurOuvrable(Tile tiles) {
-    if (tiles.crochetable()) {
+    if (tiles.crochetable() || tiles.forcable()) {
       return Color.RED;
     }
     return new Color(255, 100, 0);
@@ -108,8 +119,10 @@ public class AfficherElementEtage {
 
   private void afficherJoueur(Proprietes p, int j, int k) {
     if (element.personnages(k, j) == element.getJoueur()) {
-      p.setGlyph("@");
-      p.setCouleur(Color.WHITE);
+      if (element.personnages(k, j).getIa() instanceof JoueurIa) {
+        p.setGlyph("@");
+        p.setCouleur(Color.WHITE);
+      }
     }
   }
 }

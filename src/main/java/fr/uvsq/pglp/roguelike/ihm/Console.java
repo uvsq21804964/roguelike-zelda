@@ -8,6 +8,5 @@ package fr.uvsq.pglp.roguelike.ihm;
  * @see CommandesConsole
  * @see EcranConsole
  */
-
 public interface Console extends CommandesConsole, EcranConsole {
 }

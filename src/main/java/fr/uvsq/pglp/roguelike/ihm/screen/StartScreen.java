@@ -2,6 +2,15 @@ package fr.uvsq.pglp.roguelike.ihm.screen;
 
 import fr.uvsq.pglp.roguelike.ihm.Console;
 
+/**
+ * Ecran de présentation du jeu.
+ *
+ * <p>Il faut utiliser la commande "entrer" pour lancer une partie (càd
+ * voire l'écran {@link PlayScreen}.</p>
+ *
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public class StartScreen implements Screen {
 
   @Override

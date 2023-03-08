@@ -18,13 +18,13 @@ import java.util.Random;
  */
 public enum ArmureDeCorps implements Armure {
 
-  TISSUMATELASSE("tissu matellasse", 1, 2),
-  CUIR("cuir", 2, 4),
-  CUIRRENFORCE("cuir renforce", 3, 8),
-  CHEMISE("chemise de mailles", 4, 15),
-  COTTE("cotte de mailles", 5, 20),
-  DEMIPLAQUE("demi-plaque", 6, 50),
-  PLAQUE("plaque complete", 8, 200);
+  TISSUMATELASSE("du tissu matellassé", 1, 2),
+  CUIR("du cuir", 2, 4),
+  CUIRRENFORCE("du cuir renforcé", 3, 8),
+  CHEMISE("une chemise de mailles", 4, 15),
+  COTTE("une cotte de mailles", 5, 20),
+  DEMIPLAQUE("une demi-plaque", 6, 50),
+  PLAQUE("une plaque complète", 8, 200);
 
   private static final List<ArmureDeCorps> VALUES 
       = Collections.unmodifiableList(Arrays.asList(values()));
@@ -43,12 +43,18 @@ public enum ArmureDeCorps implements Armure {
     this.prix = prix;
   }
 
-  public static ArmureDeCorps random() {
+  /**
+   * Renvoie une valeur d'{@link ArmureDeCorps} dont le prix est 
+   * inférieur au cout indiqué choisi aléatoirement.
+   *
+   * @return {@link ArmureDeCorps} dont le prix est inférieur au cout indiqué.
+   */
+  public static ArmureDeCorps random(int cout) {
 
     ArrayList<ArmureDeCorps> possibles = new ArrayList<ArmureDeCorps>();
 
     for (int i = 0; i < SIZE; i++) {
-      if (VALUES.get(i).prix < 6) {
+      if (VALUES.get(i).prix < cout) {
         possibles.add(VALUES.get(i));
       }
     }

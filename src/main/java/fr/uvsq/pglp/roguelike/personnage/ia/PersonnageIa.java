@@ -57,25 +57,25 @@ public abstract class PersonnageIa {
     return null;
   }
 
-  //  /**
-  //   * Fonction principale du pattern <b>Template method</b>.
-  //   * 
-  //   * <p>Chaque PNJ peut chasser, ou aider le joueur ou errer, selon
-  //   * cetaines conditions propres à leur IA.</p>
-  //   *
-  //   * @see PersonnageIa#doitChasser() conditionsPourChasserPj
-  //   * @see PersonnageIa#doitAider() conditionsPourAiderPj
-  //   */
-  //  public final void onUpdate() {
-  //    if (doitChasser()) {
-  //      chasser(world.player());
-  //    } else if (doitAider()) {
-  //      aider();
-  //    } else {
-  //      errer();
-  //    }
-  //  }
-  //
+    /**
+     * Fonction principale du pattern <b>Template method</b>.
+     * 
+     * <p>Chaque PNJ peut chasser, ou aider le joueur ou errer, selon
+     * cetaines conditions propres à leur IA.</p>
+     *
+     * @see PersonnageIa#doitChasser() conditionsPourChasserPj
+     * @see PersonnageIa#doitAider() conditionsPourAiderPj
+     */
+    public final void onUpdate() {
+//      if (doitChasser()) {
+//        chasser(world.player());
+//      } else if (doitAider()) {
+//        aider();
+//      } else {
+        errer();
+//      }
+    }
+    
   //  abstract boolean doitChasser();
   //
   //  abstract boolean doitAider();
@@ -144,18 +144,19 @@ public abstract class PersonnageIa {
   //    return true;
   //  }
   //
-  //  /**
-  //   * Les PNJ se déplacent de façon aléatoire quand ils ne doivent n'y
-  //   * aider, ni chasser le joueur.
-  //   */
-  //  public void errer() {
-  //    int mx = (int) (Math.random() * 3) - 1;
-  //    int my = (int) (Math.random() * 3) - 1;
-  //
-  //    Personnage other = personnage.personnage(personnage.getX() + mx, personnage.getY() + my);
-  //
-  //    if (other == null || !other.getNom().equals(personnage.getNom())) {
-  //      personnage.moveBy(mx, my);
-  //    }
-  //  }
+    
+    /**
+     * Les PNJ se déplacent de façon aléatoire quand ils ne doivent n'y
+     * aider, ni chasser le joueur.
+     */
+    public void errer() {
+      int mx = (int) (Math.random() * 3) - 1;
+      int my = (int) (Math.random() * 3) - 1;
+  
+      Personnage other = personnage.personnage(personnage.getX() + mx, personnage.getY() + my);
+  
+      if (other == null || !other.getNom().equals(personnage.getNom())) {
+        personnage.moveBy(mx, my);
+      }
+    }
 }

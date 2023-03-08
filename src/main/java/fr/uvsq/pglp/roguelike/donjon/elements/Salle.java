@@ -2,10 +2,32 @@ package fr.uvsq.pglp.roguelike.donjon.elements;
 
 import fr.uvsq.pglp.roguelike.donjon.MorceauEtage;
 
+/**
+ * Représentation d'une salle.
+ *
+ * <p>Une salle est relié à d'autres salles grâce à des {@link Couloir}s
+ * et des {@link Porte}s.</p>
+ *
+ * @see MorceauEtage
+ * @see SalleAleatoire
+ * @see SalleFixe
+ *
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public abstract class Salle extends MorceauEtage {
 
   protected int numero;
 
+  /**
+   * Constructeur de Salle.
+   *
+   * @param numero Le numero de la salle.
+   * @param largeur La largeur de la salle.
+   * @param longueur La longueur de la salle.
+   * @param nbEquipement Le nombre d'équipements dans la salle.
+   * @param nbEnnemis Le nombre d'ennemis dans la salle.
+   */
   public Salle(int numero, int largeur, int longueur, int nbEquipement, int nbEnnemis) {
     super(largeur, longueur, nbEquipement, nbEnnemis);
     this.numero = numero;
@@ -69,5 +91,9 @@ public abstract class Salle extends MorceauEtage {
       tiles[a][0] = porte.getType();
       ouvrables[a][0] = porte;
     }
+  }
+  
+  public int numero() {
+    return numero;
   }
 }

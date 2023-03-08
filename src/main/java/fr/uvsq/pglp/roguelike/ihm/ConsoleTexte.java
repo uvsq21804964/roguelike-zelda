@@ -23,6 +23,22 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+/**
+ * Interface utilisateur du jeu.
+ *
+ * <p>Utilise un {@link Screen} pour afficher l'état du jeu 
+ * et une {@link CommandFactory} pour gérer les commandes.</p>
+ *
+ * <p>Possibilité d'utiliser à nouveau les commandes précédentes grâce
+ * aux flèches du haut et du bas.</p>
+ *
+ * <p>Quand l'utilisateur commande une action non-implémentée ou un
+ * objet non-considérée pour une certaine action, une fenêtre d'erreur
+ * s'affiche.</p>
+ *
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public class ConsoleTexte implements Console {
 
   public JFrame frame;
@@ -39,6 +55,11 @@ public class ConsoleTexte implements Console {
   private Screen screen = new StartScreen();
   private CommandFactory cf = CommandFactory.init(this);
 
+  /**
+   * Constructeur de {@link ConsoleTexte}.
+   * 
+   * <p>Il initialise l'écran sur {@link StartScreen}.</p>
+   */
   public ConsoleTexte() {
     
     try {

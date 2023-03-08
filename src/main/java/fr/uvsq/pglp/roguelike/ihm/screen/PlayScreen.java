@@ -29,6 +29,9 @@ public class PlayScreen implements Screen {
   private Personnage joueur;
   private List<String> messages;
 
+  /**
+   * Constructeur de {@link PlayScreen}.
+   */
   public PlayScreen() {
     Donjon donjon = new Donjon();
     this.salles = donjon.getSalles();
@@ -40,8 +43,15 @@ public class PlayScreen implements Screen {
 
   @Override
   public void displayOutput(Console console) {
+    
+    this.courant = joueur.getElementEtage();
+    
+    courant.updatePersosLents();
+    
     new AfficherElementEtage(courant).afficher(console);
     displayMessages(console, messages);
+    
+    courant.updatePersosRapides();
   }
 
   private void displayMessages(Console console, List<String> messages) {

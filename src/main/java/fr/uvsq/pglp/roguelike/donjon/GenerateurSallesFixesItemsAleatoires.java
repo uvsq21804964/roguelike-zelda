@@ -7,11 +7,22 @@ import fr.uvsq.pglp.roguelike.donjon.elements.CouloirSimple;
 import fr.uvsq.pglp.roguelike.donjon.elements.Porte;
 import fr.uvsq.pglp.roguelike.donjon.elements.Salle;
 import fr.uvsq.pglp.roguelike.donjon.elements.SalleAleatoire;
+import fr.uvsq.pglp.roguelike.donjon.elements.SalleFixe;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * Algorithme générant un {@link Donjon} grâce à l'aléatoire.
+ *
+ * <p>Il utilise des {@link CouloirSimple}s, des {@link CouloirAvecEnnemis}s,
+ * et des {@link CouloirAvecEquipement}s ; ainsi que des {@link SalleAleatoire}s.</p>
+ *
+ * @see GenerateurDonjon
+ *
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public class GenerateurSallesFixesItemsAleatoires implements GenerateurDonjon {
 
   private Salle[] salles = new Salle[9];

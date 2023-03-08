@@ -8,6 +8,17 @@ import fr.uvsq.pglp.roguelike.donjon.elements.SalleFixe;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import java.util.ArrayList;
 
+/**
+ * Algorithme générant un {@link Donjon} basique, sans aléatoire.
+ *
+ * <p>Il n'utilise que des {@link CouloirSimple}s et des 
+ * {@link SalleFixe}s.</p>
+ *
+ * @see GenerateurDonjon
+ *
+ * @author Tom Abbouz
+ * @version Mars 2023
+ */
 public class GenerateurPredefini implements GenerateurDonjon {
 
   private Salle[] salles = new Salle[9];
