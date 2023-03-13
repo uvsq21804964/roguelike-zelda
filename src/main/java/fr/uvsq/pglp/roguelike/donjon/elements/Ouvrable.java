@@ -1,6 +1,7 @@
 package fr.uvsq.pglp.roguelike.donjon.elements;
 
 import fr.uvsq.pglp.roguelike.echangeable.Echangeable;
+import fr.uvsq.pglp.roguelike.personnage.Personnage;
 
 /**
  * Encapsulation de tous les éléments ouvrables.
@@ -17,7 +18,9 @@ public interface Ouvrable {
 
   public boolean isOuverte();
 
-  public Echangeable ouvrir();
+  public Echangeable ouvrir(Personnage p);
+  
+  public String etudier(ElementEtage e);
   
   public boolean tirage(int mod);
  

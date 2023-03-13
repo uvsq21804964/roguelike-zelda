@@ -41,7 +41,11 @@ public interface Personnage {
 
   void update();
 
-  void moveBy(int mx, int my);
+  boolean moveBy(int mx, int my);
 
   Personnage personnage(int i, int j);
+
+  boolean attaquer(Personnage proie);
+
+  String nomJoueur();
 }

@@ -33,10 +33,10 @@ public class Donjon implements UniversDeJeu {
    * @see SallesFixesItemsAleatoires Premier algorithme pour générer un donjon
    * @see ToutPredefini Deuxième algorithme pour générer un donjon
    */
-  public Donjon() {
+  public Donjon(String nom) {
 
     GenerationDonjon donjon = new SallesFixesItemsAleatoires();
-    donjon.genererDonjon();
+    donjon.genererDonjon(nom);
     salles = donjon.getSalles();
     couloirs = donjon.getCouloirs();
   }

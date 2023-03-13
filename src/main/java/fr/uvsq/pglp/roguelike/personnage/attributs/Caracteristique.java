@@ -16,12 +16,12 @@ import java.util.Random;
  */
 public enum Caracteristique {
 
-  FOR("Force"),
-  DEX("Dexterite"),
+  CHA("Charisme"),
   CON("Constitution"),
+  DEX("Dexterite"),
+  FOR("Force"),
   INT("Intelligence"),
-  SAG("Sagesse"),
-  CHA("Charisme");
+  SAG("Sagesse");
 
   private String nom;
 

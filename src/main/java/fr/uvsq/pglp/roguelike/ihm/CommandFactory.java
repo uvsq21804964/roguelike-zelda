@@ -56,7 +56,9 @@ public class CommandFactory {
     cf.addCommand("convaincre", (String s) -> {
       convaincre(s);
     });
-
+    cf.addCommand("acheter", (String s) -> {
+      acheter(s);
+    });
     cf.addCommand("attaquer", (String s) -> {
       attaquer(s);
     });
@@ -110,7 +112,7 @@ public class CommandFactory {
   private static void sauter(String s) {
     if (s.equals("droite") || s.equals("gauche")
             || s.equals("haut") || s.equals("bas")) {
-      //facade.sauter(s);
+      facade.sauter(s);
     } else {
       commandePartiellementInexistante(s, "sauter");
     }
@@ -119,7 +121,7 @@ public class CommandFactory {
   private static void franchir(String s) {
     if (s.equals("droite") || s.equals("gauche")
             || s.equals("haut") || s.equals("bas")) {
-      //facade.franchir(s);
+      facade.franchir(s);
     } else {
       commandePartiellementInexistante(s, "franchir");
     }
@@ -128,31 +130,35 @@ public class CommandFactory {
   private static void ramasser(String s) {
     if (s.equals("pièces") || s.equals("arme")
             || s.equals("armure") || s.equals("bouclier")
-            || s.equals("équipement") || s.equals("tout")) {
-      //facade.ramasser(s);
+            || s.equals("équipement") || s.equals("tout")
+            || s.equals("pièce")) {
+      facade.ramasser(s);
     } else {
       commandePartiellementInexistante(s, "ramasser");
     }
   }
 
   private static void parler(String s) {
-    //facade.parler(s);
-    if (true) {
+    if (!facade.parler(s)) {
       personnageInexistant(s, "parler");
     }
   }
 
   private static void soutirer(String s) {
-    //facade.soutirer(s);
-    if (true) {
+    if (!facade.soutirer(s)) {
       personnageInexistant(s, "soutirer");
     }
   }
 
   private static void convaincre(String s) {
-    //facade.convaincre(s);
-    if (true) {
+    if (!facade.convaincre(s)) {
       personnageInexistant(s, "convaincre");
+    }
+  }
+  
+  private static void acheter(String s) {
+    if (!facade.acheter(s)) {
+      personnageInexistant(s, "acheter");
     }
   }
 
@@ -188,22 +194,8 @@ public class CommandFactory {
   }
 
   private static void etudier(String s) {
-    if (s.equals("droite") || s.equals("gauche")
-            || s.equals("haut") || s.equals("bas") || s.equals("ici")) {
-      console.println(s);
-      if (true) {
-        if (s.equals("haut")) {
-          message("Il n'y a rien à étudier au-dessus de vous.");
-        } else if (s.equals("bas")) {
-          message("Il n'y a rien à étudier en-dessous de vous.");
-        } else if (s.equals("gauche")) {
-          message("Il n'y a rien à étudier à gauche.");
-        } else if (s.equals("droite")) {
-          message("Il n'y a rien à étudier à droite.");
-        } else {
-          message("Il n'y a rien à étudier ici.");
-        }
-      }
+    if (s.equals("porte") || s.equals("salle") || s.equals("coffre")) {
+      facade.etudier(s);
     } else {
       commandePartiellementInexistante(s, "étudier");
     }

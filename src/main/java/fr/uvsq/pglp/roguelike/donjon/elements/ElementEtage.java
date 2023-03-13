@@ -1,5 +1,8 @@
 package fr.uvsq.pglp.roguelike.donjon.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.uvsq.pglp.roguelike.echangeable.Echangeable;
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
 import fr.uvsq.pglp.roguelike.personnage.PersonnageDonjon;
@@ -36,7 +39,7 @@ public interface ElementEtage {
 
   Personnage personnages(int k, int j);
 
-  void ajouterJoueur();
+  void ajouterJoueur(String nom);
   
   Personnage getJoueur();
 
@@ -49,4 +52,6 @@ public interface ElementEtage {
   ElementEtage joueurEntre(Ouvrable o);
   
   ElementEtage joueurSort(Ouvrable o);
+
+  void addOuvrable(int k, int j, Ouvrable o);
 }

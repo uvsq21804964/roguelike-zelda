@@ -22,5 +22,5 @@ public interface GenerateurDonjon {
 
   public ArrayList<Couloir> getCouloirs();
 
-  void ajouterJoueur();
+  void ajouterJoueur(String nom);
 }

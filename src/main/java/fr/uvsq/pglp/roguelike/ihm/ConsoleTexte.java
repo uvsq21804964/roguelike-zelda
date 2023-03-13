@@ -173,7 +173,7 @@ public class ConsoleTexte implements Console {
 
     frame.getContentPane().setBackground(new Color(50, 50, 50));
 
-    frame.setSize(660, 350);
+    frame.setSize(750, 420); // 660 350
     frame.setLocationRelativeTo(null);
 
     frame.setResizable(false);
@@ -296,20 +296,27 @@ public class ConsoleTexte implements Console {
 
   @Override
   public void actionInexistante(String[] commands) {
-    String message = "";
+    
+    if(screen instanceof StartScreen) {
+      JOptionPane.showMessageDialog(null, "Tapez 'entrer [votre pseudonyme]' pour "
+          + "lancer une nouvelle partie.\n",
+          "Action inexistante", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+      String message = "";
 
-    for (int j = 0; j < commands.length; j++) {
-      message += commands[j];
+      for (int j = 0; j < commands.length; j++) {
+        message += commands[j];
 
-      if (j != commands.length - 1) {
-        message += " ";
+        if (j != commands.length - 1) {
+          message += " ";
+        }
       }
-    }
 
-    JOptionPane.showMessageDialog(null, "L'action ' '" + message + "' n'existe pas.\n"
-            + "Vous pouvez utiliser la commande 'liste actions' "
-            + "pour voire toutes les actions possibles.",
-            "Action inexistante", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(null, "L'action ' '" + message + "' n'existe pas.\n"
+              + "Vous pouvez utiliser la commande 'liste actions' "
+              + "pour voire toutes les actions possibles.",
+              "Action inexistante", JOptionPane.INFORMATION_MESSAGE);
+    }
   }
 
   @Override
@@ -347,7 +354,7 @@ public class ConsoleTexte implements Console {
     JOptionPane.showMessageDialog(null, "Le personnage '" + commands[1] 
         + "' n'existe pas ou n'est pas a porté pour l'action '" 
         + commands[0] + "'.\n"
-        + "Référez-vous à la liste des personnages accesibles à la droite "
+        + "Référez-vous à la liste des personnages accessibles à gauche "
         + "de l'écran du jeu.", "Personnage inaccessible", 
         JOptionPane.INFORMATION_MESSAGE);
   }

@@ -1,6 +1,7 @@
 package fr.uvsq.pglp.roguelike.donjon.elements;
 
 import fr.uvsq.pglp.roguelike.donjon.MorceauEtage;
+import fr.uvsq.pglp.roguelike.echangeable.Equipement;
 
 /**
  * Représentation d'une salle.
@@ -95,5 +96,23 @@ public abstract class Salle extends MorceauEtage {
   
   public int numero() {
     return numero;
+  }
+  
+  protected int nbEquipements() {
+    
+    int nb = 0;
+    for(int i = 0 ; i < largeur ; i++) {
+      for(int j = 0 ; j < longueur ; j++) {
+        if(echangeables[i][j] != null 
+            && echangeables[i][j] instanceof Equipement) {
+          nb++;
+        }
+      }
+    }
+    return nb;
+  }
+  
+  protected int nbEnnemis() {
+    return personnages.size();
   }
 }

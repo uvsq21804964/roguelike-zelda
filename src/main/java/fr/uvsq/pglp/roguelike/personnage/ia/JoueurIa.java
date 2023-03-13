@@ -16,53 +16,26 @@ import java.util.List;
  */
 public class JoueurIa extends PersonnageIa {
 
-  private final List<String> messages;
-  // private final FieldOfView fov;
-
   /**
    * Constructeur de {@link JoueurIa}.
    *
    * @param personnage Le personnage joueur
-   * @param messages   Une liste de messages devant lui être envoyés
    */
-  public JoueurIa(Personnage personnage, List<String> messages) {
-    super(personnage);
-    this.messages = messages;
-    // this.fov = fov;
-    // @param fov        Un champ de vision {@link FieldOfView}
-  }
-
-  @Override
-  public void notifier(String message) {
-    messages.add(message);
-  }
-
-  @Override
-  public List<String> getMessages() {
-    return messages;
+  public JoueurIa(Personnage personnage) {
+    super(personnage, "JOUEUR", false);
   }
   
   @Override
   public void errer() {}
-  //
-  //  @Override
-  //  public Tile souvenirTuile(int wx, int wy) {
-  //    return fov.tile(wx, wy);
-  //  }
-  //
-  //  @Override
-  //  public boolean peutVoir(int wx, int wy) {
-  //    return fov.isVisible(wx, wy);
-  //  }
-  //
-  //  @Override
-  //  boolean doitChasser() {
-  //    return false;
-  //  }
-  //
-  //  @Override
-  //  boolean doitAider() {
-  //    return false;
-  //  }
+
+  @Override
+  boolean doitChasser() {
+    return false;
+  }
+  
+  @Override
+  boolean doitAider() {
+    return false;
+  }
 
 }

@@ -1,8 +1,9 @@
 package fr.uvsq.pglp.roguelike.personnage.ia;
 
-
 import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * <p>Chaque personnage du jeu possède une intelligence artificielle,
  * qui permet à chaque tour soit de chasser le PJ, soit de l'aider, soit
- * de faire quelque chose d'autre.</p>
+ * de faire quelque chose d'autre, en plus de pouvoir communiquer.</p>
  *
  * <p>Les extensions de cette classe doivent seulement préciser dans quel cas
  * le personnage doit chasser ou aider le PJ. <b>Par défaut</b>, chasser le
@@ -31,9 +32,15 @@ import java.util.List;
 public abstract class PersonnageIa {
 
   protected Personnage personnage;
+  protected final List<String> messages;
+  protected final String type;
+  protected boolean attaqueJoueur;
 
-  public PersonnageIa(Personnage personnage) {
+  public PersonnageIa(Personnage personnage, String type, boolean attaqueJoueur) {
     this.personnage = personnage;
+    this.messages = new ArrayList<String>();
+    this.type = type;
+    this.attaqueJoueur = attaqueJoueur;
   }
 
   /**
@@ -43,18 +50,22 @@ public abstract class PersonnageIa {
    * @param y    Coordonnée Y visée
    * @param tile La de correspondant à la position (x,y).
    */
-  public void onEnter(int x, int y, Tile tile) {
+  public boolean onEnter(int x, int y, Tile tile) {
     if (tile.isGround()) {
       personnage.setX(x);
       personnage.setY(y);
+      return true;
+    } else {
+      return false;
     }
   }
 
-  public void notifier(String format) {
+  public void notifier(String message) {
+    messages.add(message);
   }
 
   public List<String> getMessages() {
-    return null;
+    return messages;
   }
 
     /**
@@ -67,83 +78,65 @@ public abstract class PersonnageIa {
      * @see PersonnageIa#doitAider() conditionsPourAiderPj
      */
     public final void onUpdate() {
-//      if (doitChasser()) {
-//        chasser(world.player());
-//      } else if (doitAider()) {
-//        aider();
-//      } else {
+      if (doitChasser()) {
+        chasser(personnageChasse());
+      } else if (doitAider()) {
+        aider();
+      } else {
         errer();
-//      }
+      }
+    }
+
+    abstract boolean doitChasser();
+  
+    abstract boolean doitAider();
+
+    void chasser(Personnage proie) {
+      
+      notifier("Tu es ma proie " + proie.getNom() + ".");
+      
+      
+      int mx = 0;
+      if(personnage.getX() < proie.getX()) {
+        mx++;
+      } else if(personnage.getX() > proie.getX()) {
+        mx--;
+      }
+
+      int my = 0;
+      if(personnage.getY() < proie.getY()) {
+        my++;
+      } else if(personnage.getY() > proie.getY()) {
+        my--;
+      }
+      if(!personnage.moveBy(mx, my)) {
+        personnage.attaquer(proie);
+      } else {
+        switch((int) (Math.random()*4)) {
+        case 0:
+          notifier("Cours " + proie.getNom() + ", tu ne peux pas m'échapper!");
+          break;
+        case 1:
+          notifier("J'espère pour toi que tu cours vite " + proie.getNom() + "!");
+          break;
+        case 2:
+          notifier("Si je t'attrape, ça va mal se passer pour toi " + proie.getNom() + "!");
+          break;
+        case 3:
+          notifier("Tu es trop lent pour moi " + proie.getNom() + "!");
+          break;
+        default:
+          break;
+        }
+      }
     }
     
-  //  abstract boolean doitChasser();
-  //
-  //  abstract boolean doitAider();
-  //
-  //  /**
-  //   * Le {@link PersonnageDonjon} associé à l'IA chasse une cible.
-  //   *
-  //   * @param cible Le {@link PersonnageDonjon} devant être chassé.
-  //   */
-  //  public void chasser(Personnage cible) {
-  //    List<Point> points = new Path(personnage, cible.x, cible.y).points();
-  //
-  //    if (points != null) {
-  //      int mx = points.get(0).x - personnage.x;
-  //      int my = points.get(0).y - personnage.y;
-  //
-  //      personnage.moveBy(mx, my);
-  //    }
-  //  }
-  //
-  //  /**
-  //   * Le {@link PersonnageDonjon} associé à l'IA aide le PJ en
-  //   * faisant un don de pièces ou d'équipement.
-  //   * 
-  //   * <p>Ce don est simplement posé au sol, le PJ devant le ramasser.</p>
-  //   */
-  //  public void aider() {
-  //    switch ((int) (Math.random() * 2)) {
-  //      case 0:
-  //        personnage.jeter(personnage.getSac().getItemAleatoire());
-  //        break;
-  //      case 1:
-  //        personnage.laisserRubisAleatoire();
-  //        break;
-  //      default:
-  //        break;
-  //    }
-  //  }
-  //
-  //  public void notifier(String message) {
-  //  }
-  //
-  //  /**
-  //   * Renvoie <b>true</b> si l'emplacement et visible et 
-  //   * <b>false</b> sinon.
-  //   *
-  //   * @param wx Coordonnée X de l'emplacement visé
-  //   * @param wy Coordonnée Y de l'emplacement visé
-  //   * @return true si l'emplacement est visible, false sinon
-  //   */
-  //  public boolean peutVoir(int wx, int wy) {
-  //
-  //    if (Math.pow(personnage.x - wx, 2) + Math.pow(personnage.getY() - wy, 2) 
-  //        > Math.pow(personnage.distanceVue(), 2)) {
-  //      return false; 
-  //    }
-  //
-  //    for (Point p : new Line(personnage.getX(), personnage.getX(), wx, wy)) {
-  //      if (personnage.tile(p.x, p.y).isGround() || p.x == wx && p.y == wy) {
-  //        continue;
-  //      }
-  //
-  //      return false;
-  //    }
-  //
-  //    return true;
-  //  }
-  //
+    protected Personnage personnageChasse() {
+      return personnage.getElementEtage().getJoueur();
+    }
+   
+    void aider() {
+    }
     
     /**
      * Les PNJ se déplacent de façon aléatoire quand ils ne doivent n'y
@@ -158,5 +151,13 @@ public abstract class PersonnageIa {
       if (other == null || !other.getNom().equals(personnage.getNom())) {
         personnage.moveBy(mx, my);
       }
+    }
+    
+    public String getType() {
+      return type;
+    }
+    
+    protected boolean attaqueJoueur() {
+      return attaqueJoueur;
     }
 }

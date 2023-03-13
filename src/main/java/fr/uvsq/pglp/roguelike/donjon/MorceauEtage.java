@@ -19,6 +19,7 @@ import fr.uvsq.pglp.roguelike.personnage.Personnage;
 import fr.uvsq.pglp.roguelike.personnage.PersonnageDonjon;
 import fr.uvsq.pglp.roguelike.personnage.TypeIa;
 import fr.uvsq.pglp.roguelike.personnage.attributs.Caracteristique;
+import fr.uvsq.pglp.roguelike.personnage.ia.DefensifIa;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,6 +222,7 @@ public abstract class MorceauEtage implements ElementEtage {
           pnj = ennemis(x, y);
         } while (initialePrenomDejaPrise(pnj));
         pnj.morceauEtage(this);
+        System.out.println(" MorceauEtage : " + this.toString());
         personnages.add(pnj);
         nbEnnemis--;
       }
@@ -229,7 +231,7 @@ public abstract class MorceauEtage implements ElementEtage {
 
   private boolean initialePrenomDejaPrise(PersonnageDonjon pnj) {
     for(PersonnageDonjon p : personnages) {
-      if(p.getNom().equals(pnj.getNom())) {
+      if(p.getNom().charAt(0) == pnj.getNom().charAt(0)) {
         return true;
       }
     }
@@ -237,13 +239,16 @@ public abstract class MorceauEtage implements ElementEtage {
   }
 
   @Override
-  public void ajouterJoueur() {
+  public void ajouterJoueur(String nom) {
     while (true) {
       int x = (int) (Math.random() * (tiles.length - 2) + 1);
       int y = (int) (Math.random() * (tiles[0].length - 2) + 1);
       if (tiles[x][y].equals(Tile.FLOOR) && personnages(x, y) == null) {
-        PersonnageDonjon joueur = new PersonnageDonjon.PersonnageBuilder("Vous", x, y)
+        PersonnageDonjon joueur = new PersonnageDonjon.PersonnageBuilder(nom, x, y)
                 .setIa(TypeIa.JOUEUR)
+                .setSac(12, 20)
+                .addEquipement(ArmeContact.BATON)
+                .addEquipement(ArmeContact.EPEECOURTE)
                 .build();
         personnages.add(joueur);
         this.joueur = joueur;
@@ -335,6 +340,7 @@ public abstract class MorceauEtage implements ElementEtage {
     }
     return new PersonnageDonjon.PersonnageBuilder(prenom, x, y)
             .setIa(typeIa)
+            .addEquipementRandom()
             .build();
   }
 
@@ -361,5 +367,26 @@ public abstract class MorceauEtage implements ElementEtage {
   @Override
   public void addEchangeable(int k, int j, Echangeable p) {
     echangeables[k][j] = p;
+  }
+  
+  @Override
+  public void addOuvrable(int k, int j, Ouvrable o) {
+    ouvrables[k][j] = o;
+  }
+  
+  public List<PersonnageDonjon> getPersonnages() {
+    return personnages;
+  }
+  
+  public boolean zoneDefense(int j, int k) {
+    
+    for(PersonnageDonjon p : personnages) {
+      if(p.getIa() instanceof DefensifIa) {
+        if(((DefensifIa) p.getIa()).dansZoneDefense(j, k)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

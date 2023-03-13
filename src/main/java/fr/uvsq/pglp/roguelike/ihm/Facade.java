@@ -91,4 +91,76 @@ public class Facade {
     }
   }
 
+  public void ramasser(String s) {
+    joueur.commandeRamasser(s);
+  }
+
+  public boolean convaincre(String s) {
+    return joueur.convaincre(s);
+  }
+
+  public boolean parler(String s) {
+    return joueur.parler(s);
+  }
+
+  public boolean soutirer(String s) {
+    return joueur.soutirer(s);
+  }
+
+  public boolean acheter(String s) {
+    return joueur.acheter(s);
+  }
+
+  public void sauter(String s) {
+    switch (s) {
+    case "droite":
+      joueur.sauter(2, 0);
+      break;
+    case "gauche":
+      joueur.sauter(-2, 0);
+      break;
+    case "haut":
+      joueur.sauter(0, -2);
+      break;
+    case "bas":
+      joueur.sauter(0, 2);
+      break;
+    default:
+      break;
+    }
+  }
+
+  public void franchir(String s) {
+    switch (s) {
+    case "droite":
+      joueur.franchir(1, 0);
+      break;
+    case "gauche":
+      joueur.franchir(-1, 0);
+      break;
+    case "haut":
+      joueur.franchir(0, -1);
+      break;
+    case "bas":
+      joueur.franchir(0, 1);
+      break;
+    default:
+      break;
+    }
+  }
+
+  public void etudier(String s) {
+    switch (s) {
+    case "porte":
+    case "salle":
+      joueur.etudierPorte(s);
+      break;
+    case "coffre":
+      joueur.etudierCoffre(s);
+      break;
+    default:
+      break;
+    }
+  }
+
 }

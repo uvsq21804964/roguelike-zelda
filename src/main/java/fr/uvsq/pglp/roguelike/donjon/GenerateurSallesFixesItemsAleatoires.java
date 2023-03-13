@@ -149,7 +149,7 @@ public class GenerateurSallesFixesItemsAleatoires implements GenerateurDonjon {
   }
 
   @Override
-  public void ajouterJoueur() {
-    salles[0].ajouterJoueur();
+  public void ajouterJoueur(String nom) {
+    salles[0].ajouterJoueur(nom);
   }
 }

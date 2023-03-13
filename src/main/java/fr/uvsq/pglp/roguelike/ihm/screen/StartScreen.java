@@ -16,27 +16,32 @@ public class StartScreen implements Screen {
   @Override
   public void displayOutput(Console console) {
 
-    console.println("Link... Hyrule et les deesses comptent sur toi");
-    console.println("pour reprendre la lumiere qui a ete vole");
-    console.println("par Ganondorf et les Betes du Crepuscule...");
-    console.println("Tu es l'Elu des deesses, grace a la Triforce du Courage");
-    console.println("que tu possedes et ta torche, tu pourras combattre les Ombres");
-    console.println("et ainsi liberer les ames nouvellement bannies et vouees");
-    console.println("a vivre dans un monde sans lumiere...");
+    console.println("Link... Hyrule et les déesses comptent sur toi");
+    console.println("pour reprendre la lumière qui a été volé");
+    console.println("par Ganondorf et les Bêtes du Crépuscule...");
+    console.println("Tu es l'Elu des déesses, grâce à la Triforce du Courage");
+    console.println("que tu possèdes et ta torche, tu pourras combattre les Ombres");
+    console.println("et ainsi libérer les âmes nouvellement bannies et vouées");
+    console.println("à vivre dans un monde sans lumière...");
 
     console.sauts(2);
 
-    console.println("Sauve-les de cette solitude, de ce desespoir");
-    console.println("qui leur dechire le coeur comme entre chiens et loups.");
+    console.println("Sauve-les de cette solitude, de ce désespoir");
+    console.println("qui leur déchire le coeur comme entre chiens et loups.");
 
     console.sauts(5);
 
-    console.println("tapez 'entrer' pour lancer une nouvelle partie");
+    console.println("Tapez 'entrer [votre paseudonyme]' pour lancer une nouvelle partie.");
   }
 
   @Override
   public boolean commande(String s) {
-    if (s.toLowerCase().equals("entrer")) {
+    if(s.length() < 8) {
+      return false;
+    }
+    
+    String entrer = s.substring(0, 8);
+    if (entrer.toLowerCase().contains("entrer ")) {
       return true;
     }
     return false;
@@ -44,9 +49,7 @@ public class StartScreen implements Screen {
 
   @Override
   public Screen autreScreen(String s) {
-    if (s.toLowerCase().equals("entrer")) {
-      return new PlayScreen();
-    }
-    return this;
+    String nom = s.substring(7, s.length());
+    return new PlayScreen(nom);
   }
 }

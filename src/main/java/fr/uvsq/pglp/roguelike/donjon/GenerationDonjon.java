@@ -25,9 +25,9 @@ public abstract class GenerationDonjon {
     this.generateurDonjon = generationDonjon;
   }
 
-  public void genererDonjon() {
+  public void genererDonjon(String nom) {
     generateurDonjon.genererDonjon();
-    generateurDonjon.ajouterJoueur();
+    generateurDonjon.ajouterJoueur(nom);
   }
 
   public Salle[] getSalles() {

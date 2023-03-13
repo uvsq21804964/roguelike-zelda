@@ -1,6 +1,13 @@
 package fr.uvsq.pglp.roguelike.personnage.ia;
 
+import java.util.List;
+
+import fr.uvsq.pglp.roguelike.donjon.MorceauEtage;
+import fr.uvsq.pglp.roguelike.donjon.elements.Ouvrable;
+import fr.uvsq.pglp.roguelike.donjon.elements.Porte;
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
+import fr.uvsq.pglp.roguelike.personnage.PersonnageDonjon;
+import fr.uvsq.pglp.roguelike.personnage.attributs.Caracteristique;
 
 /**
  * Intelligence artificielle pour les PNJs neutres.
@@ -14,21 +21,78 @@ import fr.uvsq.pglp.roguelike.personnage.Personnage;
  */
 public class NeutreIa extends PersonnageIa {
 
+  private boolean convaincu = false;
+  private Difficulte difficulte;
+  
   public NeutreIa(Personnage personnage) {
-    super(personnage);
+    super(personnage, "NEUTRE", false);
+    this.difficulte = Difficulte.random();
   }
-//
-//  @Override
-//  boolean doitChasser() {
-//
-//    //TODO
-//    return false;
-//
-//  }
-//
-//  @Override
-//  boolean doitAider() {
-//    return false;
-//  }
 
+  @Override
+  boolean doitChasser() {
+    
+    if(attaqueJoueur) {
+      return true;
+    } else if(convaincu && proiePnj() != null) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  @Override
+  protected Personnage personnageChasse() {
+    
+    if(attaqueJoueur) {
+      return personnage.getElementEtage().getJoueur();
+    } else { // Càd si (convaincu == true)
+      return proiePnj();
+    }
+  }
+  
+  private Personnage proiePnj() {
+
+    MorceauEtage element = (MorceauEtage) personnage.getElementEtage();
+    
+    Personnage p = element.getJoueur();
+    
+    List<PersonnageDonjon> personnages = element.getPersonnages();
+    
+    for(PersonnageDonjon cible : personnages) {
+      if(cible.getIa().attaqueJoueur()) {
+        return p;
+      }
+    }
+    
+    return null;
+  }
+
+  @Override
+  boolean doitAider() {
+    return false;
+  }
+
+  public String convaincre(int mod, String nom) {
+    
+    if(convaincu) {
+      String s = personnage.getNom() + " s'est déjà rallié à votre cause!";
+      return s;
+    } else {
+      if(difficulte.getValeur() <= (20 + mod)) {
+        if(difficulte.tirage(mod)) {
+          convaincu = true;
+          notifier("Tu m'as convaincu "+ nom + " ,mort aux ennemis!");
+          return ("Bravo, vous avez réussi à convaincre " + personnage.getNom() + " de devenir votre allié!");
+        } else {
+          notifier("Pourquoi devrais-je t'obéir ?! "+ nom + ", ta cause ne m'intéresse pas!");
+          return (personnage.getNom() + " est " + difficulte.getString() + " à convaincre !");
+        }
+      } else {
+        notifier("Va t'en " + nom + ", tu n'es qu'un idiot insolent.");
+        return ("Inutile d'essayer, votre intelligence ne suffit pas pour convaincre "
+        + personnage.getNom() + " !");
+      }
+    }
+  }
 }
