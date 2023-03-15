@@ -80,6 +80,14 @@ public class CommandFactory {
     cf.addCommand("liste", (String s) -> {
       liste(s);
     });
+    
+    cf.addCommand("équiper", (String s) -> {
+      equiper(s);
+    });
+    
+    cf.addCommand("déséquiper", (String s) -> {
+      desequiper(s);
+    });
 
     return cf;
   }
@@ -163,8 +171,7 @@ public class CommandFactory {
   }
 
   private static void attaquer(String s) {
-
-    if (true) {
+    if (!facade.attaquer(s)) {
       personnageInexistant(s, "attaquer");
     }
   }
@@ -207,6 +214,24 @@ public class CommandFactory {
       console.println(s);
     } else {
       commandePartiellementInexistante(s, "liste");
+    }
+  }
+  
+  private static void equiper(String s) {
+    int i = Integer.valueOf(s);
+    if(i >= 1 && i <= 12)  {
+      facade.equiper(i);
+    } else {
+      commandePartiellementInexistante(s, "déséquiper");
+    }
+  }
+  
+  private static void desequiper(String s) {
+    int i = Integer.valueOf(s);
+    if(i >= 1 && i <= 4)  {
+      facade.desequiper(i);
+    } else {
+      commandePartiellementInexistante(s, "déséquiper");
     }
   }
 

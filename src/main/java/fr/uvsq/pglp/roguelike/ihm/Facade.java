@@ -163,4 +163,16 @@ public class Facade {
     }
   }
 
+  public void equiper(int i) {
+    joueur.equiper(i);
+  }
+  
+  public void desequiper(int i) {
+    joueur.desequiper(i);
+  }
+
+  public boolean attaquer(String s) {
+    return joueur.attaquer(s);
+  }
+
 }

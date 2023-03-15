@@ -27,7 +27,6 @@ public class Sac {
       for (int i = 0; i < equipements.length; i++) {
         if (equipements[i] == null) {
           equipements[i] = (Equipement) e;
-          System.out.println("Modif");
           return true;
         }
       }
@@ -46,7 +45,16 @@ public class Sac {
     }
     
     for (int i = 0; i < equipements.length; i++) {
-      equipements[i] = equipementRandom();
+      Equipement e = equipementRandom();
+      int iteration = 0;
+      while(this.contient(e) && iteration < 100) {
+        e = equipementRandom();
+        iteration++;
+      }
+      if(iteration == 100) {
+        e = null;
+      }
+      equipements[i] = e;
     }
     
   }
@@ -93,21 +101,16 @@ public class Sac {
       throw new IllegalArgumentException("Il n'y a que "+ quantite() 
       +" équipements dans le sac , mais vous avez demandé le "+ numero +"-ème équipement.");
     }
-    System.out.println("Numero : " + numero);
     
     int actuel = 0;
     for(int i = 0 ; i < equipements.length ; i++) {
       if(equipements[i] != null) {
-        System.out.println(equipements[i].getNom());
         if(actuel == numero) {
           return equipements[i];
         }
         actuel++;
       }
     }
-    System.out.println("");
-    System.out.println("");
-    
     return null;
   }
 
@@ -171,6 +174,17 @@ public class Sac {
     }
     
     return null;
+  }
+
+  public boolean contient(Echangeable e) {
+    for(int i = 0 ; i < equipements.length ; i++) {
+      if(equipements[i] != null) {
+        if(e.equals(equipements[i])) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 }

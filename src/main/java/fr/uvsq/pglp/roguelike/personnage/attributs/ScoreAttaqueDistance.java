@@ -1,8 +1,10 @@
 package fr.uvsq.pglp.roguelike.personnage.attributs;
 
+import fr.uvsq.pglp.roguelike.echangeable.ArmeDistance;
 import fr.uvsq.pglp.roguelike.personnage.Personnage;
+import fr.uvsq.pglp.roguelike.personnage.PersonnageDonjon;
 
-class ScoreAttaqueDistance extends ScoreAttaque {
+public class ScoreAttaqueDistance extends ScoreAttaque {
 
   public ScoreAttaqueDistance(Personnage personnage, int attaque) {
     super(personnage, attaque);
@@ -10,7 +12,15 @@ class ScoreAttaqueDistance extends ScoreAttaque {
 
   @Override
   protected int valeur() {
-    return attaque;
+    
+    int s = 0;
+    
+//    if(((PersonnageDonjon) personnage).getArme1() != null 
+//        && ((PersonnageDonjon) personnage).getArme1() instanceof ArmeDistance) {
+//      (PersonnageDonjon) personnage).getArme1().getDe();
+//    }
+//    
+    return attaque + s;
   }
 
 }

@@ -10,12 +10,15 @@ import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tresor;
 import fr.uvsq.pglp.roguelike.echangeable.Arme;
 import fr.uvsq.pglp.roguelike.echangeable.ArmeContact;
+import fr.uvsq.pglp.roguelike.echangeable.ArmeDistance;
 import fr.uvsq.pglp.roguelike.echangeable.ArmureDeCorps;
 import fr.uvsq.pglp.roguelike.echangeable.Bouclier;
 import fr.uvsq.pglp.roguelike.echangeable.Echangeable;
 import fr.uvsq.pglp.roguelike.echangeable.Equipement;
 import fr.uvsq.pglp.roguelike.echangeable.Pieces;
 import fr.uvsq.pglp.roguelike.personnage.attributs.Caracteristique;
+import fr.uvsq.pglp.roguelike.personnage.attributs.DeDeVie;
+import fr.uvsq.pglp.roguelike.personnage.attributs.Jauge;
 import fr.uvsq.pglp.roguelike.personnage.attributs.ScoreDeCaracteristique;
 import fr.uvsq.pglp.roguelike.personnage.ia.AgressifIa;
 import fr.uvsq.pglp.roguelike.personnage.ia.AmicalIa;
@@ -59,10 +62,13 @@ public class PersonnageDonjon implements Personnage {
   
   private ArmureDeCorps armureDeCorps;
   private Bouclier bouclier;
-  private Arme[] arme;
+  private Arme[] arme = new Arme[2];
   
-  private ScoreAttaqueContact contact;
-  private ScoreAttaqueDistance distance;
+  private int scoreContact;
+  private int scoreDistance;
+  
+  private Jauge pointsDeVie;
+  private DeDeVie deDeVie;
   
 
   PersonnageDonjon(PersonnageBuilder builder) {
@@ -85,8 +91,12 @@ public class PersonnageDonjon implements Personnage {
     this.bouclier = builder.bouclier;
     this.armureDeCorps = builder.armureDeCorps;
     
-    this.contact = new ScoreAttaqueContact(null, mod(Caracteristique.FOR) + 1);
-    this.distance = new ScoreAttaqueDistance(null, mod(Caracteristique.DEX) + 1);
+    this.scoreContact = (getMod(Caracteristique.FOR) + 1);
+    this.scoreDistance = (getMod(Caracteristique.DEX) + 1);
+    
+    this.deDeVie = builder.deDeVie;
+    int pointsDeVieMax = deDeVie.valeurMax() + getMod(Caracteristique.CON) + 1;
+    this.pointsDeVie = new Jauge(pointsDeVieMax, pointsDeVieMax);
   }
 
   private ScoreDeCaracteristique get(Caracteristique caracteristique) {
@@ -273,7 +283,9 @@ public class PersonnageDonjon implements Personnage {
     
     private ArmureDeCorps armureDeCorps;
     private Bouclier bouclier;
-    private Arme[] arme;
+    private Arme[] arme = new Arme[2];
+    
+    private DeDeVie deDeVie;
 
     /**
      * Constructeur de PersonnageBuilder.
@@ -292,10 +304,16 @@ public class PersonnageDonjon implements Personnage {
       this.arme[1] = null;
       this.bouclier = null;
       this.armureDeCorps = null;
+      this.deDeVie = new DeDeVie(((int) (Math.random()*5)*2) + 4);
     }
     
     public PersonnageBuilder setSac(int taille, int nbPieces) {
       this.sac = new Sac(taille, nbPieces);
+      return this;
+    }
+    
+    public PersonnageBuilder setDe(int valeurMax) {
+      this.deDeVie = new DeDeVie(valeurMax);
       return this;
     }
 
@@ -327,10 +345,7 @@ public class PersonnageDonjon implements Personnage {
 
         for (int i = 0; i < nbCar; i++) {
           calculer[i] = new ScoreDeCaracteristique(priorite[nbCar - i - 1], arr[i]);
-          System.out.println(priorite[nbCar - i - 1].toString() + "a une valeur de : " + arr[i]);
         }
-        System.out.println("");
-        System.out.println("");
         return calculer;
     }
     
@@ -384,9 +399,19 @@ public class PersonnageDonjon implements Personnage {
     
     public PersonnageBuilder addEquipementRandom() {
       this.sac.addRandom();
-      this.arme[0] = (Arme) sac.getType(ArmeContact.BATON);
-      this.bouclier = (Bouclier) sac.getType(Bouclier.GRANDBOUCLIER);
-      this.armureDeCorps = (ArmureDeCorps) sac.getType(ArmureDeCorps.CHEMISE);
+      return this;
+    }
+    
+    public PersonnageBuilder equiper(Equipement e) {
+      if(typeIa.equals(TypeIa.JOUEUR) && e instanceof Arme) {
+        this.arme[0] = (Arme) e;
+      } else if (!(typeIa.equals(TypeIa.AMICAL))) {
+        this.arme[0] = (Arme) sac.getType(ArmeContact.BATON);
+        if(!this.arme[0].isDeuxMains()) {
+          this.bouclier = (Bouclier) sac.getType(Bouclier.GRANDBOUCLIER);
+        }
+        this.armureDeCorps = (ArmureDeCorps) sac.getType(ArmureDeCorps.CHEMISE);
+      }
       return this;
     }
 
@@ -629,16 +654,20 @@ public class PersonnageDonjon implements Personnage {
     Echangeable e = morceauEtage.echangeables(axeX, axeY);
     
     if(e != null) {
-      if(sac.add(e)) {
-        morceauEtage.addEchangeable(axeX, axeY, null);
-        notifier("Vous avez ramassé " + e.getNom() + ".");
+      if(sac.contient(e)) {
+        notifier("Vous possèder déjà " + e.getNom() + ", inutile de vous encombrer.");
       } else {
-        if(e instanceof Pieces) {
-          notifier("Vous ne pouvez pas ramassé "+ e.getNom() 
-          +" car il n'y a plus de place dans votre bourse.");
-        } else if (e instanceof Equipement) {
-          notifier("Vous ne pouvez pas ramassé "+ e.getNom() 
-          +" car il n'y a plus de place dans votre sac.");
+        if(sac.add(e)) {
+          morceauEtage.addEchangeable(axeX, axeY, null);
+          notifier("Vous avez ramassé " + e.getNom() + ".");
+        } else {
+          if(e instanceof Pieces) {
+            notifier("Vous ne pouvez pas ramassé "+ e.getNom() 
+            +" car il n'y a plus de place dans votre bourse.");
+          } else if (e instanceof Equipement) {
+            notifier("Vous ne pouvez pas ramassé "+ e.getNom() 
+            +" car il n'y a plus de place dans votre sac.");
+          }
         }
       }
     }
@@ -654,11 +683,148 @@ public class PersonnageDonjon implements Personnage {
 
   @Override
   public boolean attaquer(Personnage proie) {
-    if(arme[0] != null) {
-      fdfdfdfd
+    if(arme[0] == null && arme[1] == null) {
+      notifier("Vous ne pouvez pas attaquer car vous ne portez aucune arme.");
+      return false;
     }
-    if(arme[1] != null) {
+    
+    boolean armeDistance = false;
+    
+    boolean toucher = false;
+    
+    if(arme[0] != null && arme[0] instanceof ArmeDistance) {
+      armeDistance = true;
+      attaquerAvec(proie, arme[0]);
+      toucher = true;
+    }
+    if(arme[1] != null && arme[1] instanceof ArmeDistance) {
+      armeDistance = true;
+      attaquerAvec(proie, arme[1]);
+      toucher = true;
+    }
+    
+    boolean proche = false;
+    
+    for(int i = axeX - 1 ; i <= axeX + 1 ; i++) {
+      for(int j = axeY - 1 ; j <= axeY + 1 ; j++) {
+        if(proie.getX() == i && proie.getY() == j && (i != axeX || j != axeY)) {
+          proche = true;
+        }
+      }
+    }
+    
+    
+    if(!proche) {
+      if(!armeDistance && getIa() instanceof JoueurIa) {
+        notifier(proie.getNom() + " est inatteignable car vous ne portez aucune arme à distance.");
+      }
+    }
+    
+    if(procheDe(proie)) {
+      if(arme[0] != null && arme[0] instanceof ArmeContact) {
+        attaquerAvec(proie, arme[0]);
+        toucher = true;
+      }
+      if(arme[1] != null && arme[1] instanceof ArmeContact) {
+        attaquerAvec(proie, arme[1]);
+        toucher = true;
+      }
+    }
+    
+    if(toucher && proie.getIa() instanceof NeutreIa) {
+      ((NeutreIa) proie.getIa()).doitAttaquerJoueur();
+    }
+    
+    return toucher;
+  }
+
+  public boolean mort() {
+    return pointsDeVie.vide();
+  }
+
+  private void attaquerAvec(Personnage proie, Arme arme) {
+    
+    if(arme == null) {
+      return;
+    }
+    
+    if(arme instanceof ArmeDistance) {
       
+      if(((ArmeDistance) arme).getPortee() < distance(proie, this)) {
+        notifier("Impossible d'attaquer " + proie.getNom() + " avec "
+            + arme.getNom() + " car sa portée est insuffisante.");
+      }
+      
+      if(tirage(proie, scoreDistance +  arme.getTirageMax(), arme.getNom())) {
+        int degat = arme.getTirage();
+        ((PersonnageDonjon) proie).modifierPv(degat);
+        proie.notifier("Aïe, " + degat + " dégâts infligés à distance "
+            + "par " + nom + " utilisant " + arme.getNom() + ".");
+        notifier("Hop, " + degat + " points de vie en moins pour " + proie.getNom() + " grâce à " + arme.getNom() + ".");
+      }
+    }
+    
+    if(arme instanceof ArmeContact) {
+      
+      if(!procheDe(proie)) {
+        notifier("Impossible d'attaquer " + proie.getNom() + " avec "
+            + arme.getNom() + " car il n'est pas à proximité.");
+      }
+      
+      if(tirage(proie, scoreContact + arme.getTirageMax(), arme.getNom())) {
+        int degat = arme.getTirage() + getMod(Caracteristique.FOR);
+        ((PersonnageDonjon) proie).modifierPv(degat);
+        proie.notifier("Aïe, " + degat + " dégâts infligés au contact "
+            + "par " + nom + " utilisant " + arme.getNom() + ".");
+        notifier("Hop, " + degat + " points de vie en moins pour " + proie.getNom() + " grâce à " + arme.getNom() + ".");
+      }
+    }
+  }
+  
+  public boolean modifierPv(int degat) {
+
+     pointsDeVie.modifier(- degat);
+     
+     if(pointsDeVie.vide()) {
+       return true;
+     }
+     
+     return true;
+  }
+
+  private int distance(Personnage p1, Personnage p2) {
+    int distX = Math.abs(p1.getX() - p2.getX());
+    int distY = Math.abs(p1.getY() - p2.getY());
+    
+    int d = (int) Math.sqrt(distX*distX + distY * distY);
+    return d;
+  }
+
+  public boolean tirage(Personnage proie, int score, String nomArme) {
+    int defense = ((PersonnageDonjon) proie).getDefense();
+    if(defense < (20 + score)) {
+      int tirage = ((int) (Math.random()*20)+1);
+      if(defense <= (tirage + score)) {
+        return true;
+      } else {
+        notifier("Zut, j'ai raté mon attaque avec "+ nomArme + " sur " + proie.getNom() + " ?!!");
+        proie.notifier("Ahah " + nom + ", j'ai esquivé ton attaque avec "+ nomArme + " !");
+        return false;
+      }
+    } else {
+      notifier("La défense de " + proie.getNom() + ", "
+          + "est trop grande pour pouvoir l'attaquer avec "+ nomArme +" !");
+      return false;
+    }
+  }
+
+  private boolean procheDe(Personnage proie) {
+    for(int i = axeX - 1 ; i <= axeX + 1 ; i++) {
+      for(int j = axeY - 1 ; j <= axeY + 1 ; j++) {
+        if((i != axeX || j != axeY) && proie.getX() == i && proie.getY() == j) {
+          return true;
+        }
+      }
     }
     return false;
   }
@@ -819,6 +985,10 @@ public class PersonnageDonjon implements Personnage {
   @Override
   public String nomJoueur() {
     return morceauEtage.getJoueur().getNom();
+  }
+  
+  public PersonnageDonjon getJoueur() {
+    return (PersonnageDonjon) morceauEtage.getJoueur();
   }
 
   public boolean acheter(String s) {
@@ -1219,6 +1389,239 @@ public class PersonnageDonjon implements Personnage {
     } else {
       notifier("Il n'y a aucun coffre ici.");
     }
+  }
+  
+  public Arme getArme1() {
+    return arme[0];
+  }
+  
+  public void setArme(Arme arme) {
+    
+    if(arme == null) {
+      throw new IllegalArgumentException("Vous devez donner une valeur non-nulle."
+          + " Si vous souhaitez retirer une arme, utiliser la méthode 'desequipper(Echangeable e)'");
+    }
+    
+    if(arme.isDeuxMains()) {
+      if(bouclier != null) {
+        desequipper(bouclier);
+      }
+      if(this.arme[0] != null) {
+        desequipper(this.arme[0]);
+      }
+      if(this.arme[1] != null) {
+        desequipper(this.arme[1]);
+      }
+    } else {
+      if (this.arme[1] != null && this.arme[1].isDeuxMains()) {
+        desequipper(this.arme[1]);
+      } else if(this.arme[0] != null && this.arme[0].isDeuxMains()) {
+        desequipper(this.arme[1]);
+      } else if (this.bouclier != null && this.arme[1] != null) {
+        desequipper(this.arme[1]);
+      } else if (this.bouclier != null && this.arme[0] != null) {
+        desequipper(this.arme[0]);
+      }
+    }
+     
+    if(this.arme[1] == null) {
+      this.arme[1] = arme;
+    } else if(this.arme[0] == null) {
+      this.arme[0] = arme;
+    }
+    notifier("Désormais, vous portez " + arme.getNom() + ".");
+  }
+  
+  public Arme getArme2() {
+    return arme[1];
+  }
+  
+  public Bouclier getBouclier() {
+    return bouclier;
+  }
+  
+  public void setBouclier(Bouclier bouclier) {
+    
+    if(bouclier == null) {
+      throw new IllegalArgumentException("Vous devez donner une valeur non-nulle."
+          + " Si vous souhaitez retirer un bouclier, utiliser la méthode 'desequipper(Echangeable e)'");
+    }
+    
+    if(this.bouclier != null) {
+      desequipper(this.bouclier);
+    }
+    
+    if(arme[0] != null && arme[0].isDeuxMains()) {
+      desequipper(arme[0]);
+    } else if(arme[1] != null && arme[1].isDeuxMains()) {
+      desequipper(arme[1]);
+    } else if(arme[1] != null && arme[0] != null) {
+      desequipper(this.arme[1]);
+    }
+    
+    this.bouclier = bouclier;
+    notifier("Désormais, vous portez " + bouclier.getNom() + ".");
+  }
+  
+  public ArmureDeCorps getArmureDeCorps() {
+    return armureDeCorps;
+  }
+  
+  public void setArmureDeCorps(ArmureDeCorps armure) {
+    
+    if(armure == null) {
+      throw new IllegalArgumentException("Vous devez donner une valeur non-nulle."
+          + " Si vous souhaitez retirer un bouclier, utiliser la méthode 'desequipper(Echangeable e)'");
+    }
+    
+    if(armureDeCorps != null) {
+      desequipper(armureDeCorps);
+    }
+    
+    this.armureDeCorps = armure;
+    notifier("Désormais, vous portez " + armure.getNom() + ".");
+  }
+  
+  public boolean desequipper(Equipement e) {
+    
+    if(e == null) {
+      return false;
+    }
+    
+    if(e.equals(bouclier)) {
+      bouclier = null;
+      notifier("Vous avez retiré " + e.getNom() + ".");
+      notifier("Vous ne portez plus de bouclier.");
+      return true;
+    }
+    
+    if(e.equals(armureDeCorps)) {
+      armureDeCorps = null;
+      notifier("Vous avez retiré " + e.getNom() + ".");
+      notifier("Vous ne portez plus d'armure de corps.");
+      return true;
+    }
+    
+    if(e.equals(arme[0])) {
+      arme[0] = null;
+      notifier("Vous avez retiré " + e.getNom() + ".");
+      if(arme[1] == null && arme[0] == null) {
+        notifier("Vous ne portez plus d'armes.");
+      }
+      return true;
+    }
+    
+    if(e.equals(arme[1])) {
+      arme[1] = null;
+      notifier("Vous avez retiré " + e.getNom() + ".");
+      if(arme[1] == null && arme[0] == null) {
+        notifier("Vous ne portez plus d'armes.");
+      }
+      return true;
+    }
+    
+    return false;
+  }
+  
+  
+
+  public void desequiper(int i) {
+    
+    switch(i) {
+    case 1:
+      if(arme[0] != null) {
+        desequipper(arme[0]);
+      } else {
+        notifier("Votre main gauche est déjà libre.");
+      }
+      break;
+    case 2:
+      if(arme[1] != null) {
+        desequipper(arme[1]);
+      } else {
+        notifier("Votre main droite est déjà libre.");
+      }
+      break;
+    case 3:
+      if(bouclier != null) {
+        desequipper(bouclier);
+      } else {
+        notifier("Vous ne pouvez pas retirer de bouclier car vous n'en porter aucun.");
+      }
+      break;
+    case 4:
+      if(armureDeCorps != null) {
+        desequipper(armureDeCorps);
+      } else {
+        notifier("Vous ne pouvez pas retirer d'armure de corps car vous n'en porter aucune.");
+      }
+    default:
+      break;
+    }
+  }
+
+  public void equiper(int i) {
+
+    if( i > sac.quantite()) {
+      notifier("Il n'y aucun équipement à l'emplacement " + i + " dans votre sac.");
+    }
+    
+    Equipement e = sac.get(i - 1);
+    
+    if(e instanceof ArmureDeCorps) {
+      setArmureDeCorps((ArmureDeCorps) e);
+    } else if(e instanceof Arme) {
+      setArme((Arme) e);
+    } else if(e instanceof Bouclier) {
+      setBouclier((Bouclier) e);
+    }
+    
+  }
+
+  public boolean porte(Equipement e) {
+
+     if(e instanceof Arme) {
+       return getArme1() == e || getArme2() == e;
+     } else if (e instanceof Bouclier) {
+       return e == getBouclier();
+     } else if (e instanceof ArmureDeCorps) {
+       return e == getArmureDeCorps();
+     }
+     
+     return false;
+  }
+  
+  public Jauge getPointsDeVie() {
+    return pointsDeVie;
+  }
+  
+  public int getDefense() {
+    
+    int defense = defenseBase;
+    
+    if(armureDeCorps != null) {
+      defense += armureDeCorps.getBonusDef();
+    }
+    
+    if(bouclier != null) {
+      defense += bouclier.getBonusDef();
+    }
+    
+    return defense;
+  }
+
+  public boolean attaquer(String s) {
+    for(PersonnageDonjon p : morceauEtage.getPersonnages()) {
+      if(p.getNom().toLowerCase().equals(s)) {
+          attaquer(p);
+          return true;
+      }
+    }
+    String initiale = s.substring(0,1).toUpperCase();
+    String reste = s.substring(1,s.length()).toLowerCase();
+    s = initiale + reste;
+    notifier("Il n'y a aucun " + s + " dans cette salle.");
+    return false;
   }
 }
 

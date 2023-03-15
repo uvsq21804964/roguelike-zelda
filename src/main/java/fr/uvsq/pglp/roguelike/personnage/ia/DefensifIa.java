@@ -170,7 +170,8 @@ public class DefensifIa extends PersonnageIa {
       } else {
         notifier("C'était bien essayé " + joueur.getNom() +".");
         notifier("Mais ma barrière est bien trop haute pour toi!");
-        joueur.notifier("Vous n'avez pas réussis à franchir la barrière de " + personnage.getNom() + "!");
+        joueur.notifier("La barrière de "+ personnage.getNom() + " est " 
+        + difficulteFranchir.getString() + " à franchir !");
         return false;
       }
     } else {

@@ -16,8 +16,10 @@ package fr.uvsq.pglp.roguelike.echangeable;
  * @see Equipement
  */
 public interface Arme extends Equipement {
-
-  public int getDe();
+  
+  public int getTirageMax();
+  
+  public int getTirage();
 
   public boolean isDeuxMains();
 }

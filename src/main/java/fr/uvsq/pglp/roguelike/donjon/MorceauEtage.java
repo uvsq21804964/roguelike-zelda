@@ -8,6 +8,7 @@ import fr.uvsq.pglp.roguelike.donjon.elements.Salle;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tile;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tresor;
 import fr.uvsq.pglp.roguelike.donjon.elements.Tuile;
+import fr.uvsq.pglp.roguelike.echangeable.Arme;
 import fr.uvsq.pglp.roguelike.echangeable.ArmeContact;
 import fr.uvsq.pglp.roguelike.echangeable.ArmeRechargementLimite;
 import fr.uvsq.pglp.roguelike.echangeable.ArmeRechargementSimple;
@@ -222,7 +223,6 @@ public abstract class MorceauEtage implements ElementEtage {
           pnj = ennemis(x, y);
         } while (initialePrenomDejaPrise(pnj));
         pnj.morceauEtage(this);
-        System.out.println(" MorceauEtage : " + this.toString());
         personnages.add(pnj);
         nbEnnemis--;
       }
@@ -247,8 +247,10 @@ public abstract class MorceauEtage implements ElementEtage {
         PersonnageDonjon joueur = new PersonnageDonjon.PersonnageBuilder(nom, x, y)
                 .setIa(TypeIa.JOUEUR)
                 .setSac(12, 20)
+                .setDe(100)
                 .addEquipement(ArmeContact.BATON)
                 .addEquipement(ArmeContact.EPEECOURTE)
+                .equiper(ArmeContact.EPEECOURTE)
                 .build();
         personnages.add(joueur);
         this.joueur = joueur;
@@ -341,6 +343,7 @@ public abstract class MorceauEtage implements ElementEtage {
     return new PersonnageDonjon.PersonnageBuilder(prenom, x, y)
             .setIa(typeIa)
             .addEquipementRandom()
+            .equiper(null)
             .build();
   }
 
@@ -352,7 +355,13 @@ public abstract class MorceauEtage implements ElementEtage {
   public void updatePersosLents() {
     List<PersonnageDonjon> toUpdate = new ArrayList<PersonnageDonjon>(persosLents);
     for (PersonnageDonjon p : toUpdate){
-      p.update();
+      if(p.mort()) {
+        persosLents.remove(p);
+        personnages.remove(p);
+        joueur.notifier(p.getNom() + " est mort.");
+      } else {
+        p.update();
+      }
     }
   }
 
@@ -360,7 +369,13 @@ public abstract class MorceauEtage implements ElementEtage {
   public void updatePersosRapides() {
     List<PersonnageDonjon> toUpdate = new ArrayList<PersonnageDonjon>(persosRapides);
     for (PersonnageDonjon p : toUpdate){
-      p.update();
+      if(p.mort()) {
+        persosRapides.remove(p);
+        personnages.remove(p);
+        joueur.notifier(p.getNom() + " est mort.");
+      } else {
+        p.update();
+      }
     }
   }
 

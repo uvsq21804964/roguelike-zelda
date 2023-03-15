@@ -18,7 +18,7 @@ package fr.uvsq.pglp.roguelike.echangeable;
  * @see ArmeRechargementSimple
  * @see ArmeSansRechargement
  */
-interface ArmeDistance extends Arme {
+public interface ArmeDistance extends Arme {
 
   public double getPortee();
 

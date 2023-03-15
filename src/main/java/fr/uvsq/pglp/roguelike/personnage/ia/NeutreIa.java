@@ -55,13 +55,11 @@ public class NeutreIa extends PersonnageIa {
 
     MorceauEtage element = (MorceauEtage) personnage.getElementEtage();
     
-    Personnage p = element.getJoueur();
-    
     List<PersonnageDonjon> personnages = element.getPersonnages();
     
     for(PersonnageDonjon cible : personnages) {
       if(cible.getIa().attaqueJoueur()) {
-        return p;
+        return cible;
       }
     }
     
@@ -71,6 +69,16 @@ public class NeutreIa extends PersonnageIa {
   @Override
   boolean doitAider() {
     return false;
+  }
+  
+  public void doitAttaquerJoueur() {
+    if(!attaqueJoueur) {
+      PersonnageDonjon joueur = ((PersonnageDonjon) personnage).getJoueur();
+      joueur.notifier(personnage.getNom() + " vous en veut de l'avoir attaqué !");
+      notifier("Tu n'aurais jamais dû m'attaquer " + joueur.getNom() + ".");
+      notifier("L'heure de la revanche à sonner !");
+    }
+    attaqueJoueur = true;
   }
 
   public String convaincre(int mod, String nom) {
@@ -82,7 +90,7 @@ public class NeutreIa extends PersonnageIa {
       if(difficulte.getValeur() <= (20 + mod)) {
         if(difficulte.tirage(mod)) {
           convaincu = true;
-          notifier("Tu m'as convaincu "+ nom + " ,mort aux ennemis!");
+          notifier("Tu m'as convaincu "+ nom + ", mort aux ennemis!");
           return ("Bravo, vous avez réussi à convaincre " + personnage.getNom() + " de devenir votre allié!");
         } else {
           notifier("Pourquoi devrais-je t'obéir ?! "+ nom + ", ta cause ne m'intéresse pas!");

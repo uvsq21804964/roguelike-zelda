@@ -29,8 +29,12 @@ class De {
 
     int sommeTirage = 0;
     for (int i = 0; i < nbTirage; i++) {
-      sommeTirage += (int) ((Math.random()) * valeurMax) + 1;
+      sommeTirage += (int) ((Math.random() * valeurMax) + 1);
     }
     return sommeTirage;
+  }
+  
+  public int valeurMax() {
+    return valeurMax * nbTirage;
   }
 }

@@ -95,38 +95,39 @@ public abstract class PersonnageIa {
       
       notifier("Tu es ma proie " + proie.getNom() + ".");
       
-      
-      int mx = 0;
-      if(personnage.getX() < proie.getX()) {
-        mx++;
-      } else if(personnage.getX() > proie.getX()) {
-        mx--;
-      }
+      if(!personnage.attaquer(proie)) {
+        int mx = 0;
+        if(personnage.getX() < proie.getX()) {
+          mx++;
+        } else if(personnage.getX() > proie.getX()) {
+          mx--;
+        }
 
-      int my = 0;
-      if(personnage.getY() < proie.getY()) {
-        my++;
-      } else if(personnage.getY() > proie.getY()) {
-        my--;
-      }
-      if(!personnage.moveBy(mx, my)) {
-        personnage.attaquer(proie);
-      } else {
-        switch((int) (Math.random()*4)) {
-        case 0:
-          notifier("Cours " + proie.getNom() + ", tu ne peux pas m'échapper!");
-          break;
-        case 1:
-          notifier("J'espère pour toi que tu cours vite " + proie.getNom() + "!");
-          break;
-        case 2:
-          notifier("Si je t'attrape, ça va mal se passer pour toi " + proie.getNom() + "!");
-          break;
-        case 3:
-          notifier("Tu es trop lent pour moi " + proie.getNom() + "!");
-          break;
-        default:
-          break;
+        int my = 0;
+        if(personnage.getY() < proie.getY()) {
+          my++;
+        } else if(personnage.getY() > proie.getY()) {
+          my--;
+        }
+        if(!personnage.moveBy(mx, my)) {
+          personnage.attaquer(proie);
+        } else {
+          switch((int) (Math.random()*4)) {
+          case 0:
+            notifier("Cours " + proie.getNom() + ", tu ne peux pas m'échapper!");
+            break;
+          case 1:
+            notifier("J'espère pour toi que tu cours vite " + proie.getNom() + "!");
+            break;
+          case 2:
+            notifier("Si je t'attrape, ça va mal se passer pour toi " + proie.getNom() + "!");
+            break;
+          case 3:
+            notifier("Tu es trop lent pour moi " + proie.getNom() + "!");
+            break;
+          default:
+            break;
+          }
         }
       }
     }

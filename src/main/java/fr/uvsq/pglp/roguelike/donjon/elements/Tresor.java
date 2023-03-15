@@ -114,7 +114,7 @@ public class Tresor implements Ouvrable {
     if(!ouverte) {
       this.ouverte = true;
       if(bombe != null) {
-        p.modifierPv(-bombe.degat());
+        ((PersonnageDonjon) p).modifierPv(-bombe.degat());
         p.notifier("Ce trésor était piégé !");
         p.notifier("Vous avez perdu " + bombe.degat() + " points de vie !");
       }

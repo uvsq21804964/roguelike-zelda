@@ -79,7 +79,7 @@ public enum ArmeRechargementLimite implements ArmeDistance {
   }
 
   @Override
-  public int getDe() {
+  public int getTirage() {
     return de.tirage();
   }
 
@@ -106,5 +106,10 @@ public enum ArmeRechargementLimite implements ArmeDistance {
   @Override
   public char getGlyph() {
     return glyph;
+  }
+  
+  @Override
+  public int getTirageMax() {
+    return de.valeurMax();
   }
 }

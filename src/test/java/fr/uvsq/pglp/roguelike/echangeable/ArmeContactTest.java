@@ -11,8 +11,8 @@ public class ArmeContactTest {
     }
 
     @Test
-    void testGetDe() {
-        assertTrue(ArmeContact.HACHE.getDe() >= 1 && ArmeContact.HACHE.getDe() <= 8);
+    void testGetTirage() {
+        assertTrue(ArmeContact.HACHE.getTirage() >= 1 && ArmeContact.HACHE.getTirage() <= 8);
     }
 
     @Test

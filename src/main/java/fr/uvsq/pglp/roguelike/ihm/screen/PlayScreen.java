@@ -60,24 +60,69 @@ public class PlayScreen implements Screen {
     
     new AfficherElementEtage(courant).afficher(console);
     displayPrenoms(console);
+    displaySacJoueur(console);
+    displayScoreJoueur(console);
     displayMessages(console, messages);
     
     courant.updatePersosRapides();
+  }
+
+  private void displayScoreJoueur(Console console) {
+    console.sauts(1);
+    
+    int pvActuels = ((PersonnageDonjon) joueur).getPointsDeVie().valeur();
+    int pvMax = ((PersonnageDonjon) joueur).getPointsDeVie().valeurMax();
+    String pointsDeVie = pvActuels + " / " + pvMax;
+    Color couleurPv = Color.WHITE;
+    if(((PersonnageDonjon) joueur).getPointsDeVie().taux() >= 0.75 ) {
+      couleurPv = Color.GREEN;
+    } else if(((PersonnageDonjon) joueur).getPointsDeVie().taux() <= 0.25 ) {
+      couleurPv = Color.RED;
+    }
+    console.print(pointsDeVie + " pv", couleurPv);
+    
+    // TODO Score ATTAQUE et SCORE DEFENSE;
   }
 
   private void displayPrenoms(Console console) {
     List<PersonnageDonjon> personnages = ((MorceauEtage) courant).getPersonnages();
     console.sauts(1);
     for(PersonnageDonjon p : personnages) {
+      System.out.println(p.getNom() + " a une defense de "  + p.getDefense());
       if(p != joueur) {
         console.println(infos(p), couleurPersonnage(p));
+        displayEquiperPnj(console, p);
         ecrireMessagesPnj(p, console);
       }
     }
     
     console.sauts(1);
     console.println(infos((PersonnageDonjon) joueur), Color.WHITE);
-    displaySacJoueur(console);
+  }
+  
+  private void displayEquiperPnj(Console console, PersonnageDonjon p) {
+    int tailleSac = p.tailleSac();
+    
+    if(tailleSac > 0) {
+       
+       String equipements = "";
+       Color c = couleurPersonnage(p);
+       
+       console.print("         ");
+       
+       for(int i = 0 ; i < tailleSac ; i++) {
+         equipements += " - " + p.getEquipement(i).getNom();
+         while(equipements.length() < 24) {
+           equipements += " ";
+         }
+         if(p.porte(p.getEquipement(i))) {
+           console.print(equipements, c);
+         }
+         equipements = "";
+       }
+       console.print(equipements, c);
+     }
+    console.println("");
   }
 
   private void displaySacJoueur(Console console) {
@@ -88,20 +133,25 @@ public class PlayScreen implements Screen {
        
 
        String equipements = "";
+       Color c = Color.WHITE;
        
        for(int i = 0 ; i < tailleSac ; i++) {
+         c = Color.WHITE;
          if( i%3 == 0) {
            console.println("");
            console.print("         ");
          }
          equipements += " - " + ((PersonnageDonjon) joueur).getEquipement(i).getNom();
-         while(equipements.length() < 23 && i%3!=2) {
+         while(equipements.length() < 24 && i%3!=2) {
            equipements += " ";
          }
-         console.print(equipements);
+         if(((PersonnageDonjon) joueur).porte(((PersonnageDonjon) joueur).getEquipement(i))) {
+           c = Color.CYAN;
+         }
+         console.print(equipements, c);
          equipements = "";
        }
-       console.print(equipements);
+       console.print(equipements, c);
      }
   }
 
@@ -150,12 +200,39 @@ public class PlayScreen implements Screen {
 
   @Override
   public boolean commande(String s) {
-    return false;
+    boolean mort = true;
+    
+    List<PersonnageDonjon> personnages = ((MorceauEtage) courant).getPersonnages();
+    for(PersonnageDonjon p : personnages) {
+      if(p == joueur) {
+        mort = false;
+      }
+    }
+    
+    if(mort) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
   public Screen autreScreen(String s) {
-    return this;
+    
+    boolean mort = true;
+    
+    List<PersonnageDonjon> personnages = ((MorceauEtage) courant).getPersonnages();
+    for(PersonnageDonjon p : personnages) {
+      if(p == joueur) {
+        mort = false;
+      }
+    }
+    
+    if(mort) {
+      return new LoseScreen();
+    } else {
+      return this;
+    }
   }
 
   public PersonnageDonjon getJoueur() {
