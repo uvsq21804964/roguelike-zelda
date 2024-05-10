@@ -1,7 +1,7 @@
 package fr.uvsq.pglp.roguelike.echangeable;
 
-import fr.uvsq.pglp.roguelike.interfaces.Arme;
-import fr.uvsq.pglp.roguelike.interfaces.Equipement;
+// import fr.uvsq.pglp.roguelike.interfaces.Arme;
+// import fr.uvsq.pglp.roguelike.interfaces.Equipement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
